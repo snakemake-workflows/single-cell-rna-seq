@@ -21,3 +21,4 @@ scripts/.snakemake*
 !.editorconfig
 !.travis.yml
 !.test
+!cells.tsv
