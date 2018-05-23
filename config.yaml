@@ -1,3 +1,4 @@
 
 species: mouse
 spike_pattern: "^ERCC"
+condition: condition

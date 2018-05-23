@@ -46,7 +46,8 @@ rule cell_cycle:
         plt="plots/cycle-scores.svg",
         assignments="analysis/cell-cycle-assignments.rds"
     params:
-        species=config["species"]
+        species=config["species"],
+        condition=config["condition"]
     conda:
         "../envs/eval.yaml"
     script:

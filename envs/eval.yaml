@@ -5,3 +5,4 @@ dependencies:
   - bioconductor-scater =1.6
   - bioconductor-scran =1.6
   - bioconductor-singlecellexperiment =1.0
+  - r-rcolorbrewer =1.1
