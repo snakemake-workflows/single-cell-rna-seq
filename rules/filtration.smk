@@ -10,7 +10,7 @@ rule filter_cells:
     output:
         rds="analysis/filtered-cells.rds",
         stats=report("tables/cell-filtering.tsv",
-                     caption="report/filtering.rst")
+                     caption="../report/filtering.rst")
     log:
         "logs/filter-cells.log"
     conda:

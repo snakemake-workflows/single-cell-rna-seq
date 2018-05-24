@@ -25,7 +25,7 @@ rule cell_cycle_scores:
         cells="cells.tsv"
     output:
         report("plots/cycle-scores.{condition}.svg",
-               caption="report/cycle-scores.rst")
+               caption="../report/cycle-scores.rst")
     log:
         "logs/cell-cycle-scores.{condition}.log"
     conda:
