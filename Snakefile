@@ -19,14 +19,15 @@ rule all:
         "plots/expressed-genes.svg",
         "plots/mito-proportion.svg",
         "plots/spike-proportion.svg",
-        "plots/cycle-scores.svg",
         "plots/hvg-expr-dists.svg",
         "plots/mean-vs-variance.svg",
         "tables/hvg.tsv",
         "tables/hvg-correlations.tsv",
         "plots/hvg-clusters.svg",
         "plots/hvg-corr-heatmap.svg",
-        "plots/hvg-corr-pca.svg"
+        "plots/hvg-corr-pca.svg",
+        expand("plots/cycle-scores.{condition}.svg",
+               condition=cells.columns[1:])
 
 
 include: "rules/counts.smk"

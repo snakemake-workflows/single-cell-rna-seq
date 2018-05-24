@@ -22,3 +22,7 @@ scripts/.snakemake*
 !.travis.yml
 !.test
 !cells.tsv
+!report
+!report/*
+!schemas
+!schemas/*

@@ -9,7 +9,8 @@ rule normalize:
         "analysis/filtered.rds"
     output:
         rds="analysis/normalized.rds",
-        scatter="plots/size-factors-vs-libsize.svg"
+        scatter=report("plots/size-factors-vs-libsize.svg",
+                       caption="report/size-factors.rst")
     log:
         "logs/normalize.log"
     conda:

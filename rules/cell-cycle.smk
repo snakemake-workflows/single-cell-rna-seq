@@ -6,17 +6,29 @@
 
 rule cell_cycle:
     input:
-        rds="analysis/filtered-cells.rds",
-        cells="cells.tsv"
+        "analysis/filtered-cells.rds"
     output:
-        plt=expand("plots/cycle-scores.{col}.svg", col=cells.columns[1:]),
-        assignments="analysis/cell-cycle-assignments.rds"
+        "analysis/cell-cycle-assignments.rds"
     params:
-        species=config["species"],
-        condition=config["condition"]
+        species=config["species"]
     log:
         "logs/cell-cycle.log"
     conda:
         "../envs/eval.yaml"
     script:
         "../scripts/cell-cycle.R"
+
+
+rule cell_cycle_scores:
+    input:
+        rds="analysis/cell-cycle-assignments.rds",
+        cells="cells.tsv"
+    output:
+        report("plots/cycle-scores.{condition}.svg",
+               caption="report/cycle-scores.rst")
+    log:
+        "logs/cell-cycle-scores.{condition}.log"
+    conda:
+        "../envs/eval.yaml"
+    script:
+        "../scripts/cell-cycle-scores.R"

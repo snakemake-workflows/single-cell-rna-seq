@@ -3,8 +3,6 @@ species: mouse
 spike-ins:
   pattern: "^ERCC"
 
-condition: condition
-
 filtering:
   min-avg-count: 1
 

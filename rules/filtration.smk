@@ -9,7 +9,8 @@ rule filter_cells:
         "analysis/all.rds"
     output:
         rds="analysis/filtered-cells.rds",
-        stats="tables/cell-filtering.tsv"
+        stats=report("tables/cell-filtering.tsv",
+                     caption="report/filtering.rst")
     log:
         "logs/filter-cells.log"
     conda:
