@@ -1,9 +1,17 @@
+# Copyright 2018 Johannes Köster.
+# Licensed under the MIT license (http://opensource.org/licenses/MIT)
+# This file may not be copied, modified, or distributed
+# except according to those terms.
+
+
 rule filter_cells:
     input:
         "analysis/all.rds"
     output:
         rds="analysis/filtered-cells.rds",
         stats="tables/cell-filtering.tsv"
+    log:
+        "logs/filter-cells.log"
     conda:
         "../envs/eval.yaml"
     script:
@@ -19,6 +27,8 @@ rule filter_genes:
         top_genes="plots/50-highest-genes.svg"
     params:
         threshold=config["filtering"]["min-avg-count"]
+    log:
+        "logs/filter-genes.log"
     conda:
         "../envs/eval.yaml"
     script:

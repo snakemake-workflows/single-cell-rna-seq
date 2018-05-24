@@ -1,15 +1,7 @@
-rule load_counts:
-    input:
-        counts="counts/all.tsv",
-        cells="cells.tsv"
-    output:
-        "analysis/all.rds"
-    params:
-        spike_pattern=config["spike_pattern"]
-    conda:
-        "../envs/eval.yaml"
-    script:
-        "../scripts/load-counts.R"
+# Copyright 2018 Johannes Köster.
+# Licensed under the MIT license (http://opensource.org/licenses/MIT)
+# This file may not be copied, modified, or distributed
+# except according to those terms.
 
 
 rule qc:
@@ -20,6 +12,8 @@ rule qc:
         expressed="plots/expressed-genes.svg",
         mito_proportion="plots/mito-proportion.svg",
         spike_proportion="plots/spike-proportion.svg"
+    log:
+        "logs/qc.log"
     conda:
         "../envs/eval.yaml"
     script:
@@ -32,6 +26,8 @@ rule explained_variance:
         cells="cells.tsv"
     output:
         "plots/explained-variance.svg"
+    log:
+        "logs/explained-variance.log"
     conda:
         "../envs/eval.yaml"
     script:

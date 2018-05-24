@@ -1,8 +1,9 @@
-
 species: mouse
-spike_pattern: "^ERCC"
-condition: condition
 
+spike-ins:
+  pattern: "^ERCC"
+
+condition: condition
 
 filtering:
   min-avg-count: 1

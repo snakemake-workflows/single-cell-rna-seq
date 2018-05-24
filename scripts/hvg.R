@@ -1,3 +1,12 @@
+# Copyright 2018 Johannes Köster.
+# Licensed under the MIT license (http://opensource.org/licenses/MIT)
+# This file may not be copied, modified, or distributed
+# except according to those terms.
+
+log <- file(snakemake@log[[1]], open="wt")
+sink(log)
+sink(log, type="message")
+
 library(scater)
 library(scran)
 

@@ -1,0 +1,41 @@
+$schema: "http://json-schema.org/draft-06/schema#"
+
+description: snakemake configuration file
+
+type: object
+
+properties:
+  species:
+    enum:
+      - mouse
+      - human
+
+  spike-ins:
+    type: object
+    properties:
+      pattern:
+        type: string
+    required:
+      - pattern
+
+  filtering:
+    type: object
+    properties:
+      min-avg-count:
+        type: number
+    required:
+      - min-avg-count
+
+  variance:
+    type: object
+    properties:
+      use-spikes:
+        type: boolean
+    required:
+      - use-spikes
+
+required:
+  - species
+  - spike-ins
+  - filtering
+  - variance

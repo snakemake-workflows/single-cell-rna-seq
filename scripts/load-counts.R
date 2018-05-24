@@ -1,3 +1,16 @@
+# Copyright 2018 Johannes Köster.
+# Licensed under the MIT license (http://opensource.org/licenses/MIT)
+# This file may not be copied, modified, or distributed
+# except according to those terms.
+
+log <- file(snakemake@log[[1]], open="wt")
+sink(log)
+sink(log, type="message")
+
+log <- file(snakemake@log[[1]], open="wt")
+sink(log)
+sink(log, type="message")
+
 library(scater)
 library(scran)
 
@@ -8,8 +21,22 @@ sce <- SingleCellExperiment(
   colData = all.annotation
 )
 
-# TODO use proper annotation for this
-is.mito <- grepl("^mt-", rownames(sce))
+# get feature annotation
+species = snakemake@params[["species"]]
+if (species == "mouse") {
+    dataset <- "mmusculus_gene_ensembl"
+    symbol <- "mgi_symbol"
+} else if (species == "human") {
+    dataset <- "hsapiens_gene_ensembl"
+    symbol <- "hgnc_symbol"
+} else {
+    stop("Unsupported species. Only mouse and human are supported.")
+}
+
+sce <- getBMFeatureAnnos(sce, filters=c("ensembl_gene_id"), feature_symbol=symbol, dataset=dataset)
+
+# get mitochondrial genes
+is.mito <- colData(sce)$chromosome_name == "MT"
 
 # annotate spike-ins
 is.spike <- grepl(snakemake@params[["spike_pattern"]], rownames(sce))

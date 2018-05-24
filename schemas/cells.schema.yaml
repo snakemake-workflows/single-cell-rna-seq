@@ -1,0 +1,10 @@
+$schema: "http://json-schema.org/draft-06/schema#"
+
+description: an entry in the cell sheet
+properties:
+  id:
+    type: string
+    description: cell name/identifier
+
+required:
+  - id
