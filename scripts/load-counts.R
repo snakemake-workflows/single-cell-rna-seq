@@ -3,9 +3,6 @@ library(scran)
 
 all.counts <- as.matrix(read.table(snakemake@input[["counts"]], row.names=1, header=TRUE))
 all.annotation <- read.table(snakemake@input[["cells"]], row.names=1, header=TRUE)
-print(dim(all.annotation))
-print(dim(all.counts))
-print(all.annotation)
 sce <- SingleCellExperiment(
   assays = list(counts = all.counts),
   colData = all.annotation
@@ -16,7 +13,7 @@ is.mito <- grepl("^mt-", rownames(sce))
 
 # annotate spike-ins
 is.spike <- grepl(snakemake@params[["spike_pattern"]], rownames(sce))
-isSpike(sce) <- is.spike
+isSpike(sce, "Spike") <- is.spike
 
 # calculate metrics
 sce <- calculateQCMetrics(sce, feature_controls=list(Spike=is.spike, Mt=is.mito))

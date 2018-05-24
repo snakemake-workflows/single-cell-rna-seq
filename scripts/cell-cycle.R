@@ -10,6 +10,8 @@ if (species == "mouse") {
     markers <- "mouse_cycle_markers.rds"
 } else if (species == "human") {
     markers <- "human_cycle_markers.rds"
+} else {
+    stop("Unsupported species. Only mouse and human are supported.")
 }
 
 # condition to highlight in plot

@@ -6,3 +6,6 @@ dependencies:
   - bioconductor-scran =1.6
   - bioconductor-singlecellexperiment =1.0
   - r-rcolorbrewer =1.1
+  - bioconductor-rbgl =1.54
+  - bioconductor-rgraphviz =2.22
+  - r-gplots =3.0

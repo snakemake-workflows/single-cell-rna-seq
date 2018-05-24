@@ -18,3 +18,7 @@ rule all:
 
 
 include: "rules/qc.smk"
+include: "rules/filtration.smk"
+include: "rules/cell-cycle.smk"
+include: "rules/normalization.smk"
+include: "rules/variance.smk"

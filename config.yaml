@@ -2,3 +2,10 @@
 species: mouse
 spike_pattern: "^ERCC"
 condition: condition
+
+
+filtering:
+  min-avg-count: 1
+
+variance:
+  use-spikes: false

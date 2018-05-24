@@ -26,29 +26,13 @@ rule qc:
         "../scripts/qc.R"
 
 
-
-rule filter_cells:
+rule explained_variance:
     input:
-        "analysis/all.rds"
+        rds="analysis/normalized.rds",
+        cells="cells.tsv"
     output:
-        rds="analysis/filtered.rds",
-        stats="tables/filtering.tsv"
+        "plots/explained-variance.svg"
     conda:
         "../envs/eval.yaml"
     script:
-        "../scripts/filter.R"
-
-
-rule cell_cycle:
-    input:
-        "analysis/filtered.rds"
-    output:
-        plt="plots/cycle-scores.svg",
-        assignments="analysis/cell-cycle-assignments.rds"
-    params:
-        species=config["species"],
-        condition=config["condition"]
-    conda:
-        "../envs/eval.yaml"
-    script:
-        "../scripts/cell-cycle.R"
+        "../scripts/explained-variance.R"
