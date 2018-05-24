@@ -15,12 +15,14 @@ var.cor <- correlatePairs(sce, subset.row=rownames(hvgs))
 sig.cor <- var.cor$FDR <= 0.05
 write.table(file=snakemake@output[["corr"]], var.cor, sep="\t", quote=FALSE, row.names=FALSE)
 
+
 # define graph with significant correlation as edges
 g <- ftM2graphNEL(cbind(var.cor$gene1, var.cor$gene2)[sig.cor,],
      W=NULL, V=NULL, edgemode="undirected")
 # find highly connected clusters
 cl <- highlyConnSG(g)$clusters
 cl <- cl[order(lengths(cl), decreasing=TRUE)]
+
 
 # plot correlation graph
 svg(file=snakemake@output[["graph"]])
@@ -32,6 +34,7 @@ dev.off()
 chosen <- unique(c(var.cor$gene1[sig.cor], var.cor$gene2[sig.cor]))
 # get normalized expressions
 norm.exprs <- exprs(sce)[chosen,,drop=FALSE]
+
 
 # plot heatmap
 svg(file=snakemake@output[["heatmap"]])
