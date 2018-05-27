@@ -1,3 +1,14 @@
+# path to sheet describing each cell.
+cells: cells.tsv
+
+# optional: path to unit sheet, pointing to fastq files for each sequencing unit
+# units: units.tsv
+
+# Optional: specify count table (rows: genes/transcripts/spikes, cols: cells)
+# If this is not given, the cell sheet above must contain a column unit and the
+# unit sheet must be specified.
+counts: counts/all.tsv
+
 species: mouse
 
 spike-ins:
