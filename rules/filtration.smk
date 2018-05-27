@@ -24,8 +24,10 @@ rule filter_genes:
         "analysis/filtered-cells.rds"
     output:
         rds="analysis/filtered.rds",
-        hist="plots/avg-counts.svg",
-        top_genes="plots/50-highest-genes.svg"
+        hist=report("plots/avg-counts.svg",
+                    caption="avg-counts.rst"),
+        top_genes=report("plots/50-highest-genes.svg",
+                         caption="../report/50-highest-genes.rst")
     params:
         threshold=config["filtering"]["min-avg-count"]
     log:

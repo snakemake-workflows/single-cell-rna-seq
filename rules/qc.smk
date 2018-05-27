@@ -8,10 +8,14 @@ rule qc:
     input:
         "analysis/all.rds"
     output:
-        libsizes="plots/library-size.svg",
-        expressed="plots/expressed-genes.svg",
-        mito_proportion="plots/mito-proportion.svg",
-        spike_proportion="plots/spike-proportion.svg"
+        libsizes=report("plots/library-size.svg",
+                        caption="../report/library-size.rst"),
+        expressed=report("plots/expressed-genes.svg",
+                         caption="../report/expressed-genes.svg"),
+        mito_proportion=report("plots/mito-proportion.svg",
+                               caption="../report/mito-proportion.svg"),
+        spike_proportion=report("plots/spike-proportion.svg",
+                                caption="../report/spike-proportion.svg")
     log:
         "logs/qc.log"
     conda:
@@ -25,7 +29,8 @@ rule explained_variance:
         rds="analysis/normalized.rds",
         cells="cells.tsv"
     output:
-        "plots/explained-variance.svg"
+        report("plots/explained-variance.svg",
+               caption="../report/explained-variance.rst")
     log:
         "logs/explained-variance.log"
     conda:

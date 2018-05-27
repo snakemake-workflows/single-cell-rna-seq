@@ -9,9 +9,11 @@ rule hvg:
         "analysis/normalized.rds"
     output:
         var="analysis/variance.rds",
-        hvg="tables/hvg.tsv",
-        hvg_expr_dist="plots/hvg-expr-dists.svg",
-        mean_vs_variance="plots/mean-vs-variance.svg"
+        hvg=report("tables/hvg.tsv", caption="report/hvg.rst")
+        hvg_expr_dist=report("plots/hvg-expr-dists.svg",
+                             caption="../report/hvg-expr-dists.rst"),
+        mean_vs_variance=report("plots/mean-vs-variance.svg",
+                                caption="../report/mean-vs-variance.rst")
     params:
         use_spikes=config["variance"]["use-spikes"]
     log:
@@ -27,10 +29,14 @@ rule correlation:
         hvg="tables/hvg.tsv",
         rds="analysis/normalized.rds"
     output:
-        corr="tables/hvg-correlations.tsv",
-        graph="plots/hvg-clusters.svg",
-        heatmap="plots/hvg-corr-heatmap.svg",
-        pca="plots/hvg-corr-pca.svg"
+        corr=report("tables/hvg-correlations.tsv",
+                    caption="../report/hvg-correlations.rst"),
+        graph=report("plots/hvg-clusters.svg",
+                     caption="../report/hvg-clusters.rst")
+        heatmap=report("plots/hvg-corr-heatmap.svg",
+                       caption="../report/hvg-corr-heatmap.rst"),
+        pca=report("plots/hvg-corr-pca.svg",
+                   caption="../report/hvg-corr-pca.rst")
     log:
         "logs/hvg-correlation.log"
     conda:
