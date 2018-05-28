@@ -1,6 +1,6 @@
 # Snakemake workflow: single-cell-rna-seq
 
-[![Snakemake](https://img.shields.io/badge/snakemake-≥5.1.2-brightgreen.svg)](https://snakemake.bitbucket.io)
+[![Snakemake](https://img.shields.io/badge/snakemake-≥5.1.4-brightgreen.svg)](https://snakemake.bitbucket.io)
 [![Build Status](https://travis-ci.org/snakemake-workflows/single-cell-rna-seq.svg?branch=master)](https://travis-ci.org/snakemake-workflows/single-cell-rna-seq)
 
 This is the template for a new Snakemake workflow. Replace this text with a comprehensive description covering the purpose and domain.
@@ -8,7 +8,7 @@ Insert your code into the respective folders, i.e. `scripts`, `rules`, and `envs
 
 ## Authors
 
-* Johannes Köster (@johanneskoester)
+* Johannes Köster, https://koesterlab.github.io
 
 ## Usage
 
@@ -21,7 +21,7 @@ In any case, if you use this workflow in a paper, don't forget to give credits t
 
 ### Step 2: Configure workflow
 
-Configure the workflow according to your needs via editing the file `config.yaml`.
+Configure the workflow according to your needs via editing the files `config.yaml` and `cells.tsv`.
 
 ### Step 3: Execute workflow
 
@@ -31,18 +31,17 @@ Test your configuration by performing a dry-run via
 
 Execute the workflow locally via
 
-    snakemake --cores $N
+    snakemake --use-conda --cores $N
 
-using `$N` cores or run it in a cluster environment via
+using `$N` cores. Alternatively, it can be run in cluster or cloud environments (see [the docs](http://snakemake.readthedocs.io/en/stable/executable.html) for details).
+If you not only want to fix the software stack but also the underlying OS, use
 
-    snakemake --cluster qsub --jobs 100
+    snakemake --use-conda --use-singularity
 
-or
+in combination with any of the modes above.
 
-    snakemake --drmaa --jobs 100
+### Step 4: Investigate results
 
-See the [Snakemake documentation](https://snakemake.readthedocs.io) for further details.
+After successful execution, you can create a self-contained report with all results via:
 
-## Testing
-
-Tests cases are in the subfolder `.test`. They should be executed via continuous integration with Travis CI.
+    snakemake --report report.html
