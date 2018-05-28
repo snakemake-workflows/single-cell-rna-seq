@@ -1,9 +1,7 @@
 # path to sheet describing each cell.
 cells: cells.tsv
 
-# Optional: specify count table (rows: genes/transcripts/spikes, cols: cells)
-# If this is not given, the cell sheet above must contain a column unit and the
-# unit sheet must be specified.
+# specify count table (rows: genes/transcripts/spikes, cols: cells)
 counts: counts.tsv
 
 # Variables to use for batch effect removal and as factors to be ignored in variance
