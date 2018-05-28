@@ -6,19 +6,29 @@ from snakemake.utils import validate
 import pandas as pd
 
 
+########## load config an cell sheet ############
+
 configfile: "config.yaml"
 validate(config, schema="schemas/config.schema.yaml")
 
-cells = pd.read_table("cells.tsv").set_index("id", drop=False)
+cells = pd.read_table(config["cells"]).set_index("id", drop=False)
 validate(cells, schema="schemas/cells.schema.yaml")
 
 
+targets_qc = [
+    "plots/library-size.svg",
+    "plots/expressed-genes.svg",
+    "plots/mito-proportion.svg",
+    "plots/spike-proportion.svg",
+    "plots/explained-variance.svg"
+]
+
+
+######## target rules ##############
+
 rule all:
     input:
-        "plots/library-size.svg",
-        "plots/expressed-genes.svg",
-        "plots/mito-proportion.svg",
-        "plots/spike-proportion.svg",
+        targets_qc,
         "plots/hvg-expr-dists.svg",
         "plots/mean-vs-variance.svg",
         "tables/hvg.tsv",
@@ -29,6 +39,25 @@ rule all:
         expand("plots/cycle-scores.{condition}.svg",
                condition=cells.columns[1:])
 
+
+rule all_qc:
+    input:
+        targets_qc
+
+
+##### setup singularity #####
+
+# this container defines the underlying OS for each job when using the workflow
+# with --use-conda --use-singularity
+singularity: "docker://continuumio/miniconda3"
+
+
+##### setup report #####
+
+report: "report/workflow.rst"
+
+
+##### load rules #####
 
 include: "rules/counts.smk"
 include: "rules/qc.smk"
