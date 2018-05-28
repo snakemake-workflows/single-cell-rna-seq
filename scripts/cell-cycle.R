@@ -24,7 +24,9 @@ if (species == "mouse") {
 
 # read trained data
 pairs <- readRDS(system.file("exdata", markers, package="scran"))
+
 # obtain assignments
-assignments <- cyclone(sce, pairs, gene.names=rownames(sce))
+assignments <- cyclone(sce, pairs, gene.names=rowData(sce)$feature_id)
+
 # store assignments
 saveRDS(assignments, file=snakemake@output[[1]])

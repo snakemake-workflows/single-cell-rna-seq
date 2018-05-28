@@ -23,7 +23,7 @@ spike.drop <- isOutlier(sce$pct_counts_Spike, nmads=3, type="higher")
 stats <- data.frame(ByLibSize=sum(libsize.drop), ByFeature=sum(feature.drop),
      ByMito=sum(mito.drop), BySpike=sum(spike.drop), Remaining=ncol(sce))
 write.table(stats, file=snakemake@output[["stats"]], sep='\t',
-            col.names=FALSE, row.names=FALSE)
+            row.names=FALSE, quote=FALSE)
 
 # filter sce
 sce <- sce[,!(libsize.drop | feature.drop | mito.drop | spike.drop)]

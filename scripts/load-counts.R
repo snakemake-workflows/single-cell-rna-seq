@@ -14,6 +14,21 @@ sink(log, type="message")
 library(scater)
 library(scran)
 
+##### taken from scater 1.8.0                    #####
+##### TODO remove once switching to scater 1.8.0 #####
+uniquifyFeatureNames <- function(ID, names) {
+    if (length(ID)!=length(names)) {
+        stop("lengths of 'ID' and 'names' must be equal")
+    }
+    missing.name <- is.na(names)
+    names[missing.name] <- ID[missing.name]
+    dup.name <- names %in% names[duplicated(names)]
+    names[dup.name] <- paste0(names[dup.name], "_", ID[dup.name])
+    return(names)
+}
+######################################################
+
+
 all.counts <- as.matrix(read.table(snakemake@input[["counts"]], row.names=1, header=TRUE))
 all.annotation <- read.table(snakemake@input[["cells"]], row.names=1, header=TRUE)
 sce <- SingleCellExperiment(
@@ -34,6 +49,7 @@ if (species == "mouse") {
 }
 
 sce <- getBMFeatureAnnos(sce, filters=c("ensembl_gene_id"), feature_symbol=symbol, dataset=dataset)
+rownames(sce) <- uniquifyFeatureNames(rownames(sce), rowData(sce)$feature_symbol)
 
 # get mitochondrial genes
 is.mito <- colData(sce)$chromosome_name == "MT"

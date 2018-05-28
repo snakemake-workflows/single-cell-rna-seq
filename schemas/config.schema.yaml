@@ -5,6 +5,12 @@ description: snakemake configuration file
 type: object
 
 properties:
+  counts:
+    type: string
+
+  cells:
+    type: string
+
   species:
     enum:
       - mouse
@@ -26,16 +32,22 @@ properties:
     required:
       - min-avg-count
 
-  variance:
+  model:
     type: object
     properties:
+      variables:
+        type: array
+        items:
+          type: string
       use-spikes:
         type: boolean
     required:
       - use-spikes
+      - variables
 
 required:
   - species
   - spike-ins
   - filtering
-  - variance
+  - model
+  - cells

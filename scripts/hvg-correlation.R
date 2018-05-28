@@ -14,14 +14,14 @@ library(Rgraphviz)
 library(gplots)
 
 
-sce <- readRDS(snakemake@input[["rds"]])
-
+sce <- readRDS(snakemake@input[["sce"]])
 hvgs <- read.table(snakemake@input[["hvg"]], row.names=1)
+fdr <- snakemake@params[["fdr"]]
 
 # find correlated pairs
 set.seed(100)
 var.cor <- correlatePairs(sce, subset.row=rownames(hvgs))
-sig.cor <- var.cor$FDR <= 0.05
+sig.cor <- var.cor$FDR <= fdr
 write.table(file=snakemake@output[["corr"]], var.cor, sep="\t", quote=FALSE, row.names=FALSE)
 
 

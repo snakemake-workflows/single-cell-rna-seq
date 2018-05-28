@@ -9,3 +9,4 @@ dependencies:
   - bioconductor-rbgl =1.54
   - bioconductor-rgraphviz =2.22
   - r-gplots =3.0
+  - bioconductor-limma =3.34

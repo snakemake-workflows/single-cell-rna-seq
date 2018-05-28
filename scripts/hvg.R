@@ -11,11 +11,22 @@ library(scater)
 library(scran)
 
 use.spikes <- snakemake@params[["use_spikes"]]
+fdr <- snakemake@params[["fdr"]]
+min.bio.comp <- snakemake@params[["min_bio_comp"]]
 
-sce <- readRDS(snakemake@input[[1]])
+sce <- readRDS(snakemake@input[["sce_norm"]])
+design <- readRDS(snakemake@input[["design_matrix"]])
 
-var.fit <- trendVar(sce, use.spikes=use.spikes)
+
+# apply trend model to obtain per-gene variance
+# batch effects are modeled in design matrix
+var.fit <- trendVar(sce, use.spikes=use.spikes, design=design)
 var.out <- decomposeVar(sce, var.fit)
+
+
+# from now on use expressions with removed batch effects
+sce <- readRDS(snakemake@input[["sce_batch"]])
+
 
 # plot mean vs. variance (spikes are red)
 svg(file=snakemake@output[["mean_vs_variance"]])
@@ -27,13 +38,16 @@ cur.spike <- isSpike(sce)
 points(var.out$mean[cur.spike], var.out$total[cur.spike], col="red", pch=16)
 dev.off()
 
+
 # determine HVGs (highly variable genes)
-hvg.out <- var.out[which(var.out$FDR <= 0.05 & var.out$bio >= 0.5),]
+hvg.out <- var.out[which(var.out$FDR <= fdr & var.out$bio >= min.bio.comp),]
 # sort
 hvg.out <- hvg.out[order(hvg.out$bio, decreasing=TRUE),]
 
+
 # store HVGs in table on disk
 write.table(file=snakemake@output[["hvg"]], hvg.out, sep="\t", quote=FALSE, col.names=NA)
+
 
 # plot expression distributions
 svg(file=snakemake@output[["hvg_expr_dist"]])
@@ -42,6 +56,7 @@ plotExpression(sce, rownames(hvg.out)[1:20]) + theme(
     axis.title=element_text(size=16)
 )
 dev.off()
+
 
 # store variance estimates
 saveRDS(var.out, file=snakemake@output[["var"]])

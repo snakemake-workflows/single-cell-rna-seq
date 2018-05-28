@@ -28,11 +28,11 @@ dev.off()
 # plot top genes
 svg(file=snakemake@output[["top_genes"]])
 fontsize <- theme(axis.text=element_text(size=12), axis.title=element_text(size=16))
-plotQC(sce, type = "highest-expression", n=50) + theme(
+plotQC(sce, type="highest-expression", n=50) + theme(
     axis.text=element_text(size=12),
     axis.title=element_text(size=16)
 )
 dev.off()
 
-sce <- sce[keep,]
+sce <- sce[keep, ]
 saveRDS(sce, file=snakemake@output[["rds"]])

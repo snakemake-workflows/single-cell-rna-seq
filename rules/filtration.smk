@@ -10,7 +10,8 @@ rule filter_cells:
     output:
         rds="analysis/filtered-cells.rds",
         stats=report("tables/cell-filtering.tsv",
-                     caption="../report/filtering.rst")
+                     caption="../report/filtering.rst",
+                     category="Filtration")
     log:
         "logs/filter-cells.log"
     conda:
@@ -25,9 +26,11 @@ rule filter_genes:
     output:
         rds="analysis/filtered.rds",
         hist=report("plots/avg-counts.svg",
-                    caption="avg-counts.rst"),
+                    caption="../report/avg-counts.rst",
+                    category="Filtration"),
         top_genes=report("plots/50-highest-genes.svg",
-                         caption="../report/50-highest-genes.rst")
+                         caption="../report/50-highest-genes.rst",
+                         category="Filtration")
     params:
         threshold=config["filtering"]["min-avg-count"]
     log:

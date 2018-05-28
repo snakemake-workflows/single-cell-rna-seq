@@ -1,13 +1,31 @@
 # path to sheet describing each cell.
 cells: cells.tsv
 
-# optional: path to unit sheet, pointing to fastq files for each sequencing unit
-# units: units.tsv
-
 # Optional: specify count table (rows: genes/transcripts/spikes, cols: cells)
 # If this is not given, the cell sheet above must contain a column unit and the
 # unit sheet must be specified.
-counts: counts/all.tsv
+counts: counts.tsv
+
+# Variables to use for batch effect removal and as factors to be ignored in variance
+# analysis. This should always be the two cell cycle phases (G1, G2M) which are
+# determined automatically during analysis. In addition, you may add any column
+# name of the cell sheet (see above).
+model:
+  variables:
+    - "G1"
+    - "G2M"
+  # Rely on spike-ins for variance model estimation.
+  # This is usually not desired because of few and noisy spike-ins.
+  # If this is set to false, engogeneous genes are used instead, under the
+  # assumption that most of them are not differentially expressed.
+  use-spikes: false
+  # Minimum value of average difference in true (biological) log2 expression
+  # between any two cells.
+  min-bio-comp: 0.5
+  # FDR threshold for selecting highly variable genes/transcripts (HVGs)
+  fdr: 0.05
+  # show the expression distribution of the top n HVGs
+  show-n: 20
 
 species: mouse
 
@@ -16,6 +34,3 @@ spike-ins:
 
 filtering:
   min-avg-count: 1
-
-variance:
-  use-spikes: false
