@@ -35,7 +35,6 @@ rule all:
         "tables/hvg-correlations.tsv",
         "plots/hvg-clusters.svg",
         "plots/hvg-corr-heatmap.svg",
-        "plots/hvg-corr-pca.svg",
         expand("plots/cycle-scores.{covariate}.svg",
                covariate=cells.columns[1:]),
         expand("plots/hvg-pca.{covariate}.svg",
