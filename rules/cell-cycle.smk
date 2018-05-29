@@ -24,11 +24,11 @@ rule cell_cycle_scores:
         rds="analysis/cell-cycle-assignments.rds",
         cells="cells.tsv"
     output:
-        report("plots/cycle-scores.{condition}.svg",
+        report("plots/cycle-scores.{covariate}.svg",
                caption="../report/cycle-scores.rst",
                category="Quality Control")
     log:
-        "logs/cell-cycle-scores.{condition}.log"
+        "logs/cell-cycle-scores.{covariate}.log"
     conda:
         "../envs/eval.yaml"
     script:

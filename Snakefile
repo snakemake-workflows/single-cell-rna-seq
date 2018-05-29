@@ -36,8 +36,10 @@ rule all:
         "plots/hvg-clusters.svg",
         "plots/hvg-corr-heatmap.svg",
         "plots/hvg-corr-pca.svg",
-        expand("plots/cycle-scores.{condition}.svg",
-               condition=cells.columns[1:])
+        expand("plots/cycle-scores.{covariate}.svg",
+               covariate=cells.columns[1:]),
+        expand("plots/hvg-pca.{covariate}.svg",
+               covariate=cells.columns[1:])
 
 
 rule all_qc:

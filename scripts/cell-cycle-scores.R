@@ -12,9 +12,9 @@ library(RColorBrewer)
 
 assignments <- readRDS(snakemake@input[["rds"]])
 annotation <- read.table(snakemake@input[["cells"]], header=TRUE, row.names=1)
-condition <- snakemake@wildcards[["condition"]]
-condition.values <- unique(annotation[, condition])
-n <- length(condition.values)
+covariate <- snakemake@wildcards[["covariate"]]
+covariate.values <- unique(annotation[, covariate])
+n <- length(covariate.values)
 
 # plot
 svg(file=snakemake@output[[1]])
@@ -22,6 +22,6 @@ svg(file=snakemake@output[[1]])
 palette(brewer.pal(n=n, name="Dark2"))
 plot(assignments$score$G1, assignments$score$G2M,
      xlab="G1 score", ylab="G2/M score", pch=16,
-     col=annotation[, condition])
-legend("topright", legend=condition.values, col=palette()[condition.values], pch=16)
+     col=annotation[, covariate])
+legend("topright", legend=covariate.values, col=palette()[covariate.values], pch=16)
 dev.off()

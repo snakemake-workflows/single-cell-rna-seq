@@ -51,13 +51,3 @@ svg(file=snakemake@output[["heatmap"]])
 heat.vals <- norm.exprs - rowMeans(norm.exprs)
 heat.out <- heatmap.2(heat.vals, col=bluered, symbreak=TRUE, trace="none", cexRow=0.6)
 dev.off()
-
-
-# plot PCA
-svg(file=snakemake@output[["pca"]])
-plotPCA(sce, colour_by="total_features",
-        feature_set=chosen, ncomponents=3) + theme(
-   axis.text=element_text(size=12),
-   axis.title=element_text(size=16)
-)
-dev.off()
