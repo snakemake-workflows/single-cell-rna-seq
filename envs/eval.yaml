@@ -10,3 +10,4 @@ dependencies:
   - bioconductor-rgraphviz =2.22
   - r-gplots =3.0
   - bioconductor-limma =3.34
+  - r-rtsne =0.13

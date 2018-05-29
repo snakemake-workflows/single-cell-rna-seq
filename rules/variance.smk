@@ -57,7 +57,6 @@ rule correlation:
         "../scripts/hvg-correlation.R"
 
 
-
 rule hvg_pca:
     input:
         sce="analysis/normalized.batch-removed.rds",
@@ -65,7 +64,7 @@ rule hvg_pca:
     output:
         report("plots/hvg-pca.{covariate}.svg",
                    caption="../report/hvg-corr-pca.rst",
-                   category="Highly Variable Genes")
+                   category="Dimension Reduction")
     params:
         fdr=config["model"]["fdr"]
     log:
@@ -74,3 +73,24 @@ rule hvg_pca:
         "../envs/eval.yaml"
     script:
         "../scripts/hvg-pca.R"
+
+
+rule hvg_tsne:
+    input:
+        sce="analysis/normalized.batch-removed.rds",
+        var_cor="tables/hvg-correlations.tsv"
+    output:
+        report("plots/hvg-tsne.{covariate}.perp={perplexity}.seed={seed}.svg",
+                   caption="../report/hvg-corr-tsne.rst",
+                   category="Dimension Reduction")
+    params:
+        fdr=config["model"]["fdr"]
+    log:
+        "logs/hvg-tsne.{covariate}.perp={perplexity}.seed={seed}.log"
+    conda:
+        "../envs/eval.yaml"
+    wildcard_constraints:
+        perplexity="[0-9]+",
+        seed="[0-9]+"
+    script:
+        "../scripts/hvg-tsne.R"

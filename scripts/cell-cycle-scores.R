@@ -12,7 +12,7 @@ library(RColorBrewer)
 
 assignments <- readRDS(snakemake@input[["rds"]])
 annotation <- read.table(snakemake@input[["cells"]], header=TRUE, row.names=1)
-covariate <- snakemake@wildcards[["covariate"]]
+covariate <- gsub("-", ".", snakemake@wildcards[["covariate"]])
 covariate.values <- unique(annotation[, covariate])
 n <- length(covariate.values)
 

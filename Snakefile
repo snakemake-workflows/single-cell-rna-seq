@@ -39,7 +39,11 @@ rule all:
         expand("plots/cycle-scores.{covariate}.svg",
                covariate=cells.columns[1:]),
         expand("plots/hvg-pca.{covariate}.svg",
-               covariate=cells.columns[1:])
+               covariate=cells.columns[1:]),
+        expand("plots/hvg-tsne.{covariate}.perp={perplexity}.seed={seed}.svg",
+               covariate=cells.columns[1:],
+               perplexity=[5, 10, 20],
+               seed=[23213, 789789, 897354])
 
 
 rule all_qc:

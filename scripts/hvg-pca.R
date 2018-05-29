@@ -10,7 +10,7 @@ sink(log, type="message")
 library(scater)
 
 fdr <- snakemake@params[["fdr"]]
-color.by <- snakemake@wildcards[["covariate"]]
+covariate <- gsub("-", ".", snakemake@wildcards[["covariate"]])
 sce <- readRDS(snakemake@input[["sce"]])
 var.cor <- read.table(snakemake@input[["var_cor"]], header=TRUE)
 sig.cor <- var.cor$FDR <= fdr
@@ -18,11 +18,12 @@ sig.cor <- var.cor$FDR <= fdr
 # choose significantly correlated genes
 chosen <- unique(c(var.cor$gene1[sig.cor], var.cor$gene2[sig.cor]))
 
+style <- theme(
+    axis.text=element_text(size=12),
+    axis.title=element_text(size=16))
+
 # plot PCA
 svg(file=snakemake@output[[1]])
-plotPCA(sce, colour_by=color.by,
-        feature_set=chosen, ncomponents=3) + theme(
-   axis.text=element_text(size=12),
-   axis.title=element_text(size=16)
-)
+plotPCA(sce, colour_by=covariate,
+        feature_set=chosen, ncomponents=3) + style
 dev.off()
