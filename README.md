@@ -45,3 +45,5 @@ in combination with any of the modes above.
 After successful execution, you can create a self-contained report with all results via:
 
     snakemake --report report.html
+ 
+Example output from our test dataset can be seen [here](https://cdn.rawgit.com/snakemake-workflows/single-cell-rna-seq/c28d2aa8/.test/report.html).
