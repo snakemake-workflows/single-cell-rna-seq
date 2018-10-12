@@ -7,7 +7,7 @@ technical components. HVGs are then identified as those genes with the largest
 biological components. This avoids prioritizing genes that are highly variable
 due to technical factors such as sampling noise during RNA capture and library
 preparation. See
-`Lun et al. (2016) <http://dx.doi.org/10.12688/f1000research.9501.2>`_.
+`Lun et al. (2016) <https://doi.org/10.12688/f1000research.9501.2>`_.
 
 {% if snakemake.params.use_spikes -%}
 Variance was estimated by fitting a mean-variance trend to spike-in transcript
