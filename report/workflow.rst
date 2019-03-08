@@ -9,4 +9,4 @@ Finally, highly variable genes/transcripts (HVGs) were extracted from the trend 
 
 .. _Scater: https://bioconductor.org/packages/release/bioc/html/scater.html
 .. _Scran: https://bioconductor.org/packages/release/bioc/html/scran.html
-.. _Lun et al. (2016): https://dx.doi.org/10.12688/f1000research.9501.2
+.. _Lun et al. (2016): https://doi.org/10.12688/f1000research.9501.2
