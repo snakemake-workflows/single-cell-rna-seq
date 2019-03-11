@@ -24,6 +24,6 @@ style <- theme(
 
 # plot PCA
 svg(file=snakemake@output[[1]])
-plotPCA(sce, colour_by=covariate,
-        feature_set=chosen, ncomponents=3) + style
+plotPCA(sce[chosen, ], colour_by=covariate,
+        ncomponents=3) + style
 dev.off()

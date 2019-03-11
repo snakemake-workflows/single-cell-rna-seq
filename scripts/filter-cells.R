@@ -13,7 +13,7 @@ sce <- readRDS(snakemake@input[[1]])
 
 # drop cells with too few counts or expressed features
 libsize.drop <- isOutlier(sce$total_counts, nmads=3, type="lower", log=TRUE)
-feature.drop <- isOutlier(sce$total_features, nmads=3, type="lower", log=TRUE)
+feature.drop <- isOutlier(sce$total_features_by_counts, nmads=3, type="lower", log=TRUE)
 
 # drop cells with too high proportion of mito genes or spike-ins expressed
 mito.drop <- isOutlier(sce$pct_counts_Mt, nmads=3, type="higher")

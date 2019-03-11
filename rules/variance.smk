@@ -80,13 +80,13 @@ rule hvg_tsne:
         sce="analysis/normalized.batch-removed.rds",
         var_cor="tables/hvg-correlations.tsv"
     output:
-        report("plots/hvg-tsne.{covariate}.perp={perplexity}.seed={seed}.svg",
+        report("plots/hvg-tsne.{covariate}.seed={seed}.svg",
                    caption="../report/hvg-corr-tsne.rst",
                    category="Dimension Reduction")
     params:
         fdr=config["model"]["fdr"]
     log:
-        "logs/hvg-tsne.{covariate}.perp={perplexity}.seed={seed}.log"
+        "logs/hvg-tsne.{covariate}.seed={seed}.log"
     conda:
         "../envs/eval.yaml"
     wildcard_constraints:

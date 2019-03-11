@@ -19,7 +19,7 @@ dev.off()
 
 # plot number of expressed genes
 svg(file=snakemake@output[["expressed"]])
-hist(sce$total_features, xlab="Number of expressed genes", main="",
+hist(sce$total_features_by_counts, xlab="Number of expressed genes", main="",
      breaks=20, col="grey80", ylab="Number of cells")
 dev.off()
 
