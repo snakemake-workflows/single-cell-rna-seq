@@ -27,6 +27,8 @@ model:
   fdr: 0.05
   # show the expression distribution of the top n HVGs
   show-n: 20
+  # compute correlation for top n HVGs
+  top-n: 200
 
 species: human
 

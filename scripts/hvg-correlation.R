@@ -15,7 +15,7 @@ library(gplots)
 
 
 sce <- readRDS(snakemake@input[["sce"]])
-hvgs <- read.table(snakemake@input[["hvg"]], row.names=1)
+hvgs <- read.table(snakemake@input[["hvg"]], row.names=1)[1:snakemake@params[["top_n"]], ]
 fdr <- snakemake@params[["fdr"]]
 
 # find correlated pairs

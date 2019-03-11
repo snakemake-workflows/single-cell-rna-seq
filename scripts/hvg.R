@@ -52,7 +52,7 @@ write.table(file=snakemake@output[["hvg"]], hvg.out, sep="\t", quote=FALSE, col.
 # plot expression distributions
 svg(file=snakemake@output[["hvg_expr_dist"]])
 print(hvg.out)
-plotExpression(sce, rownames(hvg.out)[1:20]) + theme(
+plotExpression(sce, rownames(hvg.out)[1:snakemake@params[["show_n"]]]) + theme(
     axis.text=element_text(size=12),
     axis.title=element_text(size=16)
 )

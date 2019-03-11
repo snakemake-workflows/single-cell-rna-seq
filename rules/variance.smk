@@ -48,7 +48,8 @@ rule correlation:
                        caption="../report/hvg-corr-heatmap.rst",
                        category="Highly Variable Genes")
     params:
-        fdr=config["model"]["fdr"]
+        fdr=config["model"]["fdr"],
+        top_n=config["model"]["top-n"]
     log:
         "logs/hvg-correlation.log"
     conda:
@@ -90,7 +91,6 @@ rule hvg_tsne:
     conda:
         "../envs/eval.yaml"
     wildcard_constraints:
-        perplexity="[0-9]+",
         seed="[0-9]+"
     script:
         "../scripts/hvg-tsne.R"
