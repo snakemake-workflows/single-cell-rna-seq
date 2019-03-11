@@ -30,7 +30,7 @@ model:
   # compute correlation for top n HVGs
   top-n: 200
 
-cell-type-assignment
+cell-type-signatures: resources/signatures.tsv
 
 species: human
 
