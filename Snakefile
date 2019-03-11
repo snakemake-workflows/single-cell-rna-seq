@@ -11,7 +11,7 @@ import pandas as pd
 configfile: "config.yaml"
 validate(config, schema="schemas/config.schema.yaml")
 
-cells = pd.read_table(config["cells"]).set_index("id", drop=False)
+cells = pd.read_csv(config["cells"], sep="\t").set_index("id", drop=False)
 validate(cells, schema="schemas/cells.schema.yaml")
 
 
