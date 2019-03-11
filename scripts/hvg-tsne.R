@@ -11,7 +11,6 @@ library(scater)
 library(scran)
 
 seed <- as.integer(snakemake@wildcards[["seed"]])
-perplexity <- as.integer(snakemake@wildcards[["perplexity"]])
 fdr <- snakemake@params[["fdr"]]
 covariate <- gsub("-", ".", snakemake@wildcards[["covariate"]])
 
@@ -29,6 +28,5 @@ style <- theme(
 # plot t-SNE
 svg(file=snakemake@output[[1]])
 set.seed(seed)
-plotTSNE(sce, perplexity=perplexity,
-         colour_by=covariate, feature_set=chosen) + style
+plotTSNE(sce[chosen, ], colour_by=covariate) + style
 dev.off()

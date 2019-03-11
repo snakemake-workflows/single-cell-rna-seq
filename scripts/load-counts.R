@@ -48,8 +48,9 @@ if (species == "mouse") {
     stop("Unsupported species. Only mouse and human are supported.")
 }
 
-sce <- getBMFeatureAnnos(sce, filters=c("ensembl_gene_id"), feature_symbol=symbol, dataset=dataset)
-rownames(sce) <- uniquifyFeatureNames(rownames(sce), rowData(sce)$feature_symbol)
+sce <- getBMFeatureAnnos(sce, filters=c("ensembl_gene_id"), attributes = c("ensembl_gene_id", symbol, "chromosome_name", "gene_biotype", "start_position", "end_position"), dataset=dataset)
+rowData(sce)[, "gene_symbol"] <- rowData(sce)[, symbol]
+rownames(sce) <- uniquifyFeatureNames(rownames(sce), rowData(sce)$gene_symbol)
 
 # get mitochondrial genes
 is.mito <- colData(sce)$chromosome_name == "MT"

@@ -39,9 +39,8 @@ rule all:
                covariate=cells.columns[1:]),
         expand("plots/hvg-pca.{covariate}.svg",
                covariate=cells.columns[1:]),
-        expand("plots/hvg-tsne.{covariate}.perp={perplexity}.seed={seed}.svg",
+        expand("plots/hvg-tsne.{covariate}.seed={seed}.svg",
                covariate=cells.columns[1:],
-               perplexity=[5, 10, 20],
                seed=[23213, 789789, 897354])
 
 

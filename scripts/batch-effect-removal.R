@@ -16,7 +16,6 @@ model.vars <- colData(sce)
 model.vars$G1 <- cycle.assignments$scores$G1
 model.vars$G2M <- cycle.assignments$scores$G2M
 
-
 # setup design matrix
 model <- ~ 1
 for (variable in snakemake@params[["model_variables"]]) {
@@ -29,6 +28,6 @@ colnames(design) <- snakemake@params[["model_variables"]]
 saveRDS(design, file=snakemake@output[["design_matrix"]])
 
 # remove batch effects based on variables
-batch.removed <- removeBatchEffect(exprs(sce), covariates=model.vars[, snakemake@params[["model_variables"]]])
-norm_exprs(sce) <- batch.removed
+batch.removed <- removeBatchEffect(normcounts(sce), covariates=model.vars[, snakemake@params[["model_variables"]]])
+normcounts(sce) <- batch.removed
 saveRDS(sce, file=snakemake@output[["sce"]])

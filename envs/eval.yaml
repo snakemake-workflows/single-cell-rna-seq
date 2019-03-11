@@ -1,13 +1,14 @@
 channels:
-  - bioconda
   - conda-forge
+  - bioconda
 dependencies:
-  - bioconductor-scater =1.6
-  - bioconductor-scran =1.6
-  - bioconductor-singlecellexperiment =1.0
+  - bioconductor-scater =1.10
+  - bioconductor-scran =1.10
+  - bioconductor-singlecellexperiment =1.4
   - r-rcolorbrewer =1.1
-  - bioconductor-rbgl =1.54
-  - bioconductor-rgraphviz =2.22
+  - bioconductor-rbgl =1.58
+  - bioconductor-rgraphviz =2.26
   - r-gplots =3.0
-  - bioconductor-limma =3.34
+  - bioconductor-limma =3.38
   - r-rtsne =0.13
+  - bioconductor-biomart =2.38
