@@ -42,7 +42,7 @@ dev.off()
 # choose significantly correlated genes
 chosen <- unique(c(var.cor$gene1[sig.cor], var.cor$gene2[sig.cor]))
 # get normalized expressions
-norm.exprs <- exprs(sce)[chosen,,drop=FALSE]
+norm.exprs <- logcounts(sce)[chosen,,drop=FALSE]
 
 
 # plot heatmap

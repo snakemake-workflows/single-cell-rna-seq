@@ -28,6 +28,6 @@ colnames(design) <- snakemake@params[["model_variables"]]
 saveRDS(design, file=snakemake@output[["design_matrix"]])
 
 # remove batch effects based on variables
-batch.removed <- removeBatchEffect(normcounts(sce), covariates=model.vars[, snakemake@params[["model_variables"]]])
-normcounts(sce) <- batch.removed
+batch.removed <- removeBatchEffect(logcounts(sce), covariates=model.vars[, snakemake@params[["model_variables"]]])
+logcounts(sce) <- batch.removed
 saveRDS(sce, file=snakemake@output[["sce"]])
