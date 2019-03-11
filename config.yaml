@@ -2,7 +2,10 @@
 cells: cells.tsv
 
 # specify count table (rows: genes/transcripts/spikes, cols: cells)
-counts: counts.tsv
+counts:
+  path: counts.tsv
+  # define which kind of features are described in each row (must be a term understood by Ensembl biomart)
+  feature_ids: hgnc_symbol
 
 # Variables to use for batch effect removal and as factors to be ignored in variance
 # analysis. This should always be the two cell cycle phases (G1, G2M) which are
@@ -25,7 +28,7 @@ model:
   # show the expression distribution of the top n HVGs
   show-n: 20
 
-species: mouse
+species: human
 
 spike-ins:
   pattern: "^ERCC"
