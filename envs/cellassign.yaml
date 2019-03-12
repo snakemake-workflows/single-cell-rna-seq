@@ -4,3 +4,4 @@ channels:
 dependencies:
   - bioconda::r-cellassign =0.99
   - bioconda::bioconductor-singlecellexperiment =1.4
+  - tensorflow =1.10

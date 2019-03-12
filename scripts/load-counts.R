@@ -47,5 +47,6 @@ isSpike(sce, "Spike") <- is.spike
 
 # calculate metrics
 sce <- calculateQCMetrics(sce, feature_controls=list(Spike=is.spike, Mt=is.mito))
+colData(sce)[, "detection_rate"] <- sce$total_features_by_counts / nrow(sce)
 
 saveRDS(sce, file=snakemake@output[[1]])

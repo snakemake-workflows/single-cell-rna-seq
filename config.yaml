@@ -36,8 +36,12 @@ celltype:
 
 diffexp:
   test-jun:
-    design: "~ celltype + detrate"
-    # optional: constrain to cell types
+    # Refer to any colData from SingleCellExperiment here.
+    # In addition, you can use celltype and detection_rate
+    # (number of expressed genes in cell divided by total 
+    # number of genes in experiment).
+    design: "~ celltype + detection_rate"
+    # Optional: constrain to cell types (comment out to use all cell types).
     celltypes:
       - JUN+
       - JUN-
