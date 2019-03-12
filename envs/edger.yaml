@@ -1,0 +1,6 @@
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - bioconda::bioconductor-edger =3.24
+  - bioconda::bioconductor-singlecellexperiment =1.4

@@ -30,7 +30,17 @@ model:
   # compute correlation for top n HVGs
   top-n: 200
 
-cell-type-signatures: resources/signatures.tsv
+# Comment in to assign cell type via signatures
+celltype: 
+  markers: resources/signatures.tsv
+
+diffexp:
+  test-jun:
+    design: "~ celltype + detrate"
+    # optional: constrain to cell types
+    celltypes:
+      - JUN+
+      - JUN-
 
 species: human
 
@@ -38,4 +48,4 @@ spike-ins:
   pattern: "^ERCC"
 
 filtering:
-  min-avg-count: 1
+  min-avg-count: 10

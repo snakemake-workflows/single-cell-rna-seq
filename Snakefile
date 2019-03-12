@@ -14,6 +14,11 @@ validate(config, schema="schemas/config.schema.yaml")
 cells = pd.read_csv(config["cells"], sep="\t").set_index("id", drop=False)
 validate(cells, schema="schemas/cells.schema.yaml")
 
+markers = None
+if "markers" in config.get("celltype", {}):
+    markers = pd.read_csv(config["celltype"]["markers"], sep="\t").set_index("name", drop=False)
+    markers.loc[:, "parent"].fillna("root", inplace=True)
+
 
 targets_qc = [
     "plots/library-size.svg",
@@ -41,7 +46,11 @@ rule all:
                covariate=cells.columns[1:]),
         expand("plots/hvg-tsne.{covariate}.seed={seed}.svg",
                covariate=cells.columns[1:],
-               seed=[23213, 789789, 897354])
+               seed=[23213, 789789, 897354]),
+        expand("plots/cellassign.{parent}.svg",
+               parent=markers["parent"].unique()),
+        expand("tables/diffexp.{test}.tsv",
+               test=config["diffexp"])
 
 
 rule all_qc:
@@ -69,3 +78,5 @@ include: "rules/filtration.smk"
 include: "rules/cell-cycle.smk"
 include: "rules/normalization.smk"
 include: "rules/variance.smk"
+include: "rules/cell-type.smk"
+include: "rules/diffexp.smk"
