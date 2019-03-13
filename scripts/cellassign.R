@@ -10,9 +10,9 @@ parent <- snakemake@wildcards[["parent"]]
 # get parent fit and filter sce to those cells
 parent_fit <- snakemake@input[["fit"]]
 if(length(parent_fit) > 0) {
-    parent_fit <- readRDS(parent_fit)
-    parent_type <- rownames(parent_fit[parent_fit$cell_type == parent])
-    sce <- sce[, parent_type]
+    parent_fit <- readRDS(parent_fit)$cell_type
+    is_parent_type <- rownames(parent_fit[parent_fit$cell_type == parent, ])
+    sce <- sce[, is_parent_type]
 }
 
 markers <- read.table(snakemake@input[["markers"]], row.names = NULL, header = TRUE, sep="\t", stringsAsFactors = FALSE, na.strings = "")
@@ -32,5 +32,11 @@ marker_mat <- marker_mat[rownames(marker_mat) %in% rownames(sce), ]
 # apply cellAssign
 sce <- sce[rownames(marker_mat), ]
 fit <- cellassign(exprs_obj = sce, marker_gene_info = marker_mat, s = sizeFactors(sce), learning_rate = 1e-2, shrinkage = TRUE)
+
+# add cell names to results
+cells <- colnames(sce)
+rownames(fit$mle_params$gamma) <- cells
+fit$cell_type <- data.frame(cell_type = fit$cell_type)
+rownames(fit$cell_type) <- cells
 
 saveRDS(fit, file = snakemake@output[[1]])

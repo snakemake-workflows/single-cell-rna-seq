@@ -3,3 +3,4 @@ channels:
   - bioconda
 dependencies:
   - bioconda::bioconductor-complexheatmap =1.20
+  - r-viridis =0.5

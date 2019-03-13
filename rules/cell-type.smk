@@ -19,6 +19,18 @@ rule cellassign:
         "../scripts/cellassign.R"
 
 
+rule annotate_cellassign_fit:
+    input:
+        sce="analysis/normalized.batch-removed.rds",
+        fit="analysis/cellassign.{parent}.rds"
+    output:
+        "analysis/cellassign.{parent}.annotated.rds"
+    conda:
+        "../envs/cellassign.yaml"
+    script:
+        "../scripts/annotate-cellassign.R"
+
+
 rule plot_cellassign:
     input:
         "analysis/cellassign.{parent}.rds"
