@@ -11,7 +11,7 @@ parent <- snakemake@wildcards[["parent"]]
 parent_fit <- snakemake@input[["fit"]]
 if(length(parent_fit) > 0) {
     parent_fit <- readRDS(parent_fit)$cell_type
-    is_parent_type <- rownames(parent_fit[parent_fit$cell_type == parent, ])
+    is_parent_type <- rownames(parent_fit)[parent_fit$cell_type == parent]
     sce <- sce[, is_parent_type]
 }
 

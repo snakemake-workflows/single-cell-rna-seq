@@ -15,6 +15,8 @@ rule cellassign:
         "analysis/cellassign.{parent}.rds"
     conda:
         "../envs/cellassign.yaml"
+    threads:
+        1000 # cellassign always uses the entire CPU
     script:
         "../scripts/cellassign.R"
 
