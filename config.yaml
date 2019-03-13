@@ -41,6 +41,10 @@ diffexp:
     # (number of expressed genes in cell divided by total 
     # number of genes in experiment).
     design: "~ celltype + detection_rate"
+    # Which coefficients of the model should be tested equal to zero.
+    # E.g., 2 to test the first coefficient after the implicit intercept
+    # (i.e., celltype in the example above).
+    coef: 2
     # Optional: constrain to cell types (comment out to use all cell types).
     celltypes:
       - JUN+

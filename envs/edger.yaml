@@ -4,3 +4,4 @@ channels:
 dependencies:
   - bioconda::bioconductor-edger =3.24
   - bioconda::bioconductor-singlecellexperiment =1.4
+  - bioconda::bioconductor-scran =1.10

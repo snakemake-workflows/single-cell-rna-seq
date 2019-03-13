@@ -10,11 +10,16 @@ def get_fits(wildcards):
 rule edger:
     input:
         sce="analysis/normalized.batch-removed.rds",
-        fits=get_fits
+        cellassign_fits=get_fits
     output:
-        "tables/diffexp.{test}.tsv"
+        table="tables/diffexp.{test}.tsv",
+        bcv="plots/diffexp.{test}.bcv.svg",
+        md="plots/diffexp.{test}.md.svg",
+        disp="plots/diffexp.{test}.disp.svg"
     params:
-        design=lambda w: config["diffexp"][w.test]["design"]
+        design=lambda w: config["diffexp"][w.test]["design"],
+        celltypes=lambda w: config["diffexp"][w.test]["celltypes"],
+        coef=lambda w: config["diffexp"][w.test]["coef"]
     conda:
         "../envs/edger.yaml"
     script:
