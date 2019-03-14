@@ -18,6 +18,7 @@ colData(sce)$detection_rate <- cut(colData(sce)$detection_rate, 10)
 y <- convertTo(sce, type = "edgeR", col.fields = c("celltype", "detection_rate"))
 
 design <- model.matrix(as.formula(snakemake@params[["design"]]), data=y$samples)
+y <- calcNormFactors(y)
 y <- estimateDisp(y, design)
 fit <- glmQLFit(y, design)
 qlf <- glmQLFTest(fit, coef=snakemake@params[["coef"]])

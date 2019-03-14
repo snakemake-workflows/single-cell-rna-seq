@@ -28,7 +28,6 @@ for(i in 1:nrow(markers)) {
 marker_mat <- marker_list_to_mat(marker_list)
 marker_mat <- marker_mat[rownames(marker_mat) %in% rownames(sce), ]
 
-
 # apply cellAssign
 sce <- sce[rownames(marker_mat), ]
 fit <- cellassign(exprs_obj = sce, marker_gene_info = marker_mat, s = sizeFactors(sce), learning_rate = 1e-2, shrinkage = TRUE)

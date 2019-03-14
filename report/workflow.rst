@@ -3,7 +3,8 @@ After cell and gene filtration (see Filtration_), raw counts were normalized wit
 In the following, the covariates {{ snakemake.config["model"]["variables"]|join(', ') }} were considered to cause technical variation.
 Per-gene biological variance was estimated by fitting a mean-variance trend model using above covariates as design matrix (see hvg.tsv_).
 Subsequently, the covariates were used to remove batch effects from normalized expressions.
-Finally, highly variable genes/transcripts (HVGs) were extracted from the trend model and their pairwise correlation was analyzed (see Results_ for details).
+Next, highly variable genes/transcripts (HVGs) were extracted from the trend model and their pairwise correlation was analyzed (see Results_ for details).
+
 
 
 
