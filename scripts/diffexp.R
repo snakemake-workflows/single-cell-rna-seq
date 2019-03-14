@@ -25,15 +25,15 @@ qlf <- glmQLFTest(fit, coef=snakemake@params[["coef"]])
 
 write.table(qlf$table, file=snakemake@output[["table"]])
 
-svg(file = snakemake@output[["bcv"]])
+pdf(file = snakemake@output[["bcv"]])
 plotBCV(y)
 dev.off()
 
-svg(file = snakemake@output[["md"]])
+pdf(file = snakemake@output[["md"]])
 plotMD(qlf)
 abline(h=c(-1,1), col="grey")
 dev.off()
 
-svg(file = snakemake@output[["disp"]])
+pdf(file = snakemake@output[["disp"]])
 plotQLDisp(fit)
 dev.off()

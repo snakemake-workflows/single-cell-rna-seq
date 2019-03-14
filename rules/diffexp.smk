@@ -13,9 +13,9 @@ rule edger:
         cellassign_fits=get_fits
     output:
         table="tables/diffexp.{test}.tsv",
-        bcv="plots/diffexp.{test}.bcv.svg",
-        md="plots/diffexp.{test}.md.svg",
-        disp="plots/diffexp.{test}.disp.svg"
+        bcv="plots/diffexp.{test}.bcv.pdf",
+        md="plots/diffexp.{test}.md.pdf",
+        disp="plots/diffexp.{test}.disp.pdf"
     params:
         design=lambda w: config["diffexp"][w.test]["design"],
         celltypes=lambda w: config["diffexp"][w.test]["celltypes"],

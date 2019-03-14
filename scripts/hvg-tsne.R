@@ -26,7 +26,7 @@ style <- theme(
     axis.title=element_text(size=16))
 
 # plot t-SNE
-svg(file=snakemake@output[[1]])
+pdf(file=snakemake@output[[1]])
 set.seed(seed)
 plotTSNE(sce[chosen, ], colour_by=covariate) + style
 dev.off()

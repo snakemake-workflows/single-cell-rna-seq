@@ -29,7 +29,7 @@ sce <- readRDS(snakemake@input[["sce_batch"]])
 
 
 # plot mean vs. variance (spikes are red)
-svg(file=snakemake@output[["mean_vs_variance"]])
+pdf(file=snakemake@output[["mean_vs_variance"]])
 plot(var.out$mean, var.out$total, pch=16, cex=0.6, xlab="Mean log-expression",
      ylab="Variance of log-expression")
 o <- order(var.out$mean)
@@ -50,7 +50,7 @@ write.table(file=snakemake@output[["hvg"]], hvg.out, sep="\t", quote=FALSE, col.
 
 
 # plot expression distributions
-svg(file=snakemake@output[["hvg_expr_dist"]])
+pdf(file=snakemake@output[["hvg_expr_dist"]])
 print(hvg.out)
 plotExpression(sce, rownames(hvg.out)[1:snakemake@params[["show_n"]]]) + theme(
     axis.text=element_text(size=12),

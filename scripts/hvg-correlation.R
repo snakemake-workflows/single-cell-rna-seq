@@ -34,7 +34,7 @@ cl <- cl[order(lengths(cl), decreasing=TRUE)]
 
 
 # plot correlation graph
-svg(file=snakemake@output[["graph"]])
+pdf(file=snakemake@output[["graph"]])
 plot(g, "neato", attrs=list(node=list(fillcolor="lightblue", color="lightblue")))
 dev.off()
 
@@ -46,7 +46,7 @@ norm.exprs <- logcounts(sce)[chosen,,drop=FALSE]
 
 
 # plot heatmap
-svg(file=snakemake@output[["heatmap"]])
+pdf(file=snakemake@output[["heatmap"]])
 # z-score
 heat.vals <- norm.exprs - rowMeans(norm.exprs)
 heat.out <- heatmap.2(heat.vals, col=bluered, symbreak=TRUE, trace="none", cexRow=0.6)

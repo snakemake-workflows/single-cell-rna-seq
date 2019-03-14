@@ -21,11 +21,11 @@ if "markers" in config.get("celltype", {}):
 
 
 targets_qc = [
-    "plots/library-size.svg",
-    "plots/expressed-genes.svg",
-    "plots/mito-proportion.svg",
-    "plots/spike-proportion.svg",
-    "plots/explained-variance.svg"
+    "plots/library-size.pdf",
+    "plots/expressed-genes.pdf",
+    "plots/mito-proportion.pdf",
+    "plots/spike-proportion.pdf",
+    "plots/explained-variance.pdf"
 ]
 
 
@@ -34,20 +34,20 @@ targets_qc = [
 rule all:
     input:
         targets_qc,
-        "plots/hvg-expr-dists.svg",
-        "plots/mean-vs-variance.svg",
+        "plots/hvg-expr-dists.pdf",
+        "plots/mean-vs-variance.pdf",
         "tables/hvg.tsv",
         "tables/hvg-correlations.tsv",
-        "plots/hvg-clusters.svg",
-        "plots/hvg-corr-heatmap.svg",
-        expand("plots/cycle-scores.{covariate}.svg",
+        "plots/hvg-clusters.pdf",
+        "plots/hvg-corr-heatmap.pdf",
+        expand("plots/cycle-scores.{covariate}.pdf",
                covariate=cells.columns[1:]),
-        expand("plots/hvg-pca.{covariate}.svg",
+        expand("plots/hvg-pca.{covariate}.pdf",
                covariate=cells.columns[1:]),
-        expand("plots/hvg-tsne.{covariate}.seed={seed}.svg",
+        expand("plots/hvg-tsne.{covariate}.seed={seed}.pdf",
                covariate=cells.columns[1:],
                seed=[23213, 789789, 897354]),
-        expand("plots/cellassign.{parent}.svg",
+        expand("plots/cellassign.{parent}.pdf",
                parent=markers["parent"].unique()),
         expand("tables/diffexp.{test}.tsv",
                test=config["diffexp"])

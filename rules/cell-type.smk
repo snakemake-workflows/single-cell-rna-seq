@@ -37,7 +37,7 @@ rule plot_cellassign:
     input:
         "analysis/cellassign.{parent}.rds"
     output:
-        "plots/cellassign.{parent}.svg"
+        "plots/cellassign.{parent}.pdf"
     conda:
         "../envs/heatmap.yaml"
     script:
