@@ -12,10 +12,12 @@ rule edger:
         sce="analysis/normalized.batch-removed.rds",
         cellassign_fits=get_fits
     output:
-        table="tables/diffexp.{test}.tsv",
-        bcv="plots/diffexp.{test}.bcv.pdf",
-        md="plots/diffexp.{test}.md.pdf",
+        table=report("tables/diffexp.{test}.tsv", caption="../report/diffexp-table.rst", category="Differential Expression Analysis"),
+        bcv=report("plots/diffexp.{test}.bcv.pdf", caption="../report/diffexp-bcv.rst", category="Differential Expression Analysis"),
+        md=report("plots/diffexp.{test}.md.pdf", caption="../report/diffexp-md.rst", category="Differential Expression Analysis"),
         disp="plots/diffexp.{test}.disp.pdf"
+    log:
+        "logs/edger/{test}.log"
     params:
         design=lambda w: config["diffexp"][w.test]["design"],
         celltypes=lambda w: config["diffexp"][w.test]["celltypes"],

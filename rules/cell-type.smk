@@ -12,7 +12,9 @@ rule cellassign:
         markers=config["celltype"]["markers"],
         fit=get_parent_fit
     output:
-        "analysis/cellassign.{parent}.rds"
+        protected("analysis/cellassign.{parent}.rds")
+    log:
+        "logs/cellassign/{parent}.log"
     conda:
         "../envs/cellassign.yaml"
     threads:
@@ -27,6 +29,8 @@ rule annotate_cellassign_fit:
         fit="analysis/cellassign.{parent}.rds"
     output:
         "analysis/cellassign.{parent}.annotated.rds"
+    log:
+        "logs/cellassign-annotation/{parent}.log"
     conda:
         "../envs/cellassign.yaml"
     script:
@@ -38,8 +42,27 @@ rule plot_cellassign:
         "analysis/cellassign.{parent}.rds"
     output:
         "plots/cellassign.{parent}.pdf"
+    log:
+        "logs/cellassign/{parent}.plot.log"
     conda:
         "../envs/heatmap.yaml"
     script:
         "../scripts/plot-cellassign.R"
 
+
+rule celltype_tsne:
+    input:
+        sce="analysis/normalized.batch-removed.rds",
+        fits=expand("analysis/cellassign.{parent}.rds", parent=markers["parent"].unique())
+    output:
+        report("plots/celltype-tsne.seed={seed}.pdf",
+                   caption="../report/celltype-tsne.rst",
+                   category="Dimension Reduction")
+    log:
+        "logs/celltype-tsne/seed={seed}.log"
+    conda:
+        "../envs/eval.yaml"
+    wildcard_constraints:
+        seed="[0-9]+"
+    script:
+        "../scripts/celltype-tsne.R"

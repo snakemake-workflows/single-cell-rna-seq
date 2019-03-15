@@ -24,7 +24,7 @@ model:
   # between any two cells.
   min-bio-comp: 0.5
   # FDR threshold for selecting highly variable genes/transcripts (HVGs)
-  fdr: 0.05
+  fdr: 0.001
   # show the expression distribution of the top n HVGs
   show-n: 20
   # compute correlation for top n HVGs
@@ -32,7 +32,7 @@ model:
 
 # Comment in to assign cell type via signatures
 celltype: 
-  markers: resources/signatures.tsv
+  markers: resources/markers.tsv
 
 diffexp:
   test-jun:

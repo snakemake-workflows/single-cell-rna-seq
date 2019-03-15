@@ -1,9 +1,12 @@
+log <- file(snakemake@log[[1]], open="wt")
+sink(log)
+sink(log, type="message")
+
 library(SingleCellExperiment)
 library(scran)
 library(edgeR)
 
 sce <- readRDS(snakemake@input[["sce"]])
-save.image()
 for(cellassign_fit in snakemake@input[["cellassign_fits"]]) {
     cellassign_fit <- readRDS(cellassign_fit)$cell_type
     # assign determined cell types
@@ -21,9 +24,9 @@ design <- model.matrix(as.formula(snakemake@params[["design"]]), data=y$samples)
 y <- calcNormFactors(y)
 y <- estimateDisp(y, design)
 fit <- glmQLFit(y, design)
-qlf <- glmQLFTest(fit, coef=snakemake@params[["coef"]])
+qlf <- glmQLFTest(fit, coef = snakemake@params[["coef"]])
 
-write.table(qlf$table, file=snakemake@output[["table"]])
+write.table(qlf$table, file = snakemake@output[["table"]], sep = "\t", col.names = NA, row.names = TRUE)
 
 pdf(file = snakemake@output[["bcv"]])
 plotBCV(y)
@@ -31,7 +34,7 @@ dev.off()
 
 pdf(file = snakemake@output[["md"]])
 plotMD(qlf)
-abline(h=c(-1,1), col="grey")
+abline(h = c(-1,1), col = "grey")
 dev.off()
 
 pdf(file = snakemake@output[["disp"]])

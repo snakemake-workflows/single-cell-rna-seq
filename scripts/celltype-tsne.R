@@ -1,0 +1,31 @@
+# Copyright 2018 Johannes Köster.
+# Licensed under the MIT license (http://opensource.org/licenses/MIT)
+# This file may not be copied, modified, or distributed
+# except according to those terms.
+
+log <- file(snakemake@log[[1]], open="wt")
+sink(log)
+sink(log, type="message")
+
+library(scater)
+library(scran)
+
+seed <- as.integer(snakemake@wildcards[["seed"]])
+
+sce <- readRDS(snakemake@input[["sce"]])
+
+for(cellassign_fit in snakemake@input[["fits"]]) {
+    cellassign_fit <- readRDS(cellassign_fit)$cell_type
+    # assign determined cell types
+    colData(sce)[rownames(cellassign_fit), "celltype"] <- sapply(cellassign_fit$cell_type, as.character)
+}
+
+style <- theme(
+    axis.text=element_text(size=12),
+    axis.title=element_text(size=16))
+
+# plot t-SNE
+pdf(file=snakemake@output[[1]], width = 12)
+set.seed(seed)
+plotTSNE(sce, colour_by="celltype") + style
+dev.off()

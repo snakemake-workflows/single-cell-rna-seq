@@ -49,7 +49,12 @@ rule all:
                seed=[23213, 789789, 897354]),
         expand("plots/cellassign.{parent}.pdf",
                parent=markers["parent"].unique()),
-        expand("tables/diffexp.{test}.tsv",
+        expand("plots/celltype-tsne.seed={seed}.pdf",
+               seed=[23213, 789789, 897354]),
+        expand(["tables/diffexp.{test}.tsv",
+                "plots/diffexp.{test}.bcv.pdf",
+                "plots/diffexp.{test}.md.pdf",
+                "plots/diffexp.{test}.disp.pdf"],
                test=config["diffexp"])
 
 

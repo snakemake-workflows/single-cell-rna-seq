@@ -1,6 +1,10 @@
 # this is needed to make tensorflow happy
 Sys.setenv(MKL_THREADING_LAYER = "GNU")
 
+log <- file(snakemake@log[[1]], open="wt")
+sink(log)
+sink(log, type="message")
+
 library(SingleCellExperiment)
 library(cellassign)
 
@@ -21,16 +25,37 @@ markers <- markers[markers$parent == parent, ]
 
 # convert markers into something cellAssign understands
 trim <- function (x) gsub("^\\s+|\\s+$", "", x)
-marker_list <- list()
-for(i in 1:nrow(markers)) {
-    marker_list[[markers[i, "name"]]] = sapply(strsplit(markers[i, "genes"], ","), trim)
+get_genes <- function (x) {
+    if(is.na(x)) {
+        vector()
+    } else { 
+        sapply(strsplit(x, ","), trim)
+    }
 }
-marker_mat <- marker_list_to_mat(marker_list)
+genes <- vector()
+for(g in markers$genes) {
+    genes <- c(genes, get_genes(g))
+}
+genes <- sort(unique(genes))
+
+if(length(genes) < 2) {
+    stop("Markers have to contain at least two different genes in union.")
+}
+
+marker_mat <- matrix(0, nrow = nrow(markers), ncol = length(genes))
+colnames(marker_mat) <- genes
+rownames(marker_mat) <- markers$name
+for(i in 1:nrow(markers)) {
+    cell_type <- markers[i, "name"]
+    marker_mat[cell_type, ] <- genes %in% get_genes(markers[i, "genes"])
+}
+marker_mat <- t(marker_mat)
 marker_mat <- marker_mat[rownames(marker_mat) %in% rownames(sce), ]
+
 
 # apply cellAssign
 sce <- sce[rownames(marker_mat), ]
-fit <- cellassign(exprs_obj = sce, marker_gene_info = marker_mat, s = sizeFactors(sce), learning_rate = 1e-2, shrinkage = TRUE)
+fit <- cellassign(exprs_obj = sce, marker_gene_info = marker_mat, s = sizeFactors(sce), learning_rate = 1e-2, B = 20, shrinkage = TRUE)
 
 # add cell names to results
 cells <- colnames(sce)
