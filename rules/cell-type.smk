@@ -9,7 +9,7 @@ def get_parent_fit(wildcards):
 rule cellassign:
     input:
         sce="analysis/normalized.batch-removed.rds",
-        markers=config["celltype"]["markers"],
+        markers=report(config["celltype"]["markers"], caption="../report/markers.rst", category="Cell Type Classification"),
         fit=get_parent_fit
     output:
         protected("analysis/cellassign.{parent}.rds")
@@ -41,7 +41,7 @@ rule plot_cellassign:
     input:
         "analysis/cellassign.{parent}.rds"
     output:
-        "plots/cellassign.{parent}.pdf"
+        report("plots/cellassign.{parent}.pdf", caption="../report/cellassign.rst", category="Cell Type Classification")
     log:
         "logs/cellassign/{parent}.plot.log"
     conda:

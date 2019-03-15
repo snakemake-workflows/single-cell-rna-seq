@@ -6,10 +6,11 @@ Subsequently, the covariates were used to remove batch effects from normalized e
 Next, highly variable genes/transcripts (HVGs) were extracted from the trend model and their pairwise correlation was analyzed (see Results_ for details).
 
 {% if snakemake.config["diffexp"] %}
-In addition, differential expression analysis was performed with edgeR_, as advised by `Soneson and Robinson 2018 <https://www.nature.com/articles/nmeth.4612>`_.
-For this, cell types were assigned to each cell via CellAssign_, using predefined marker genes.
+Differential expression analysis was performed with edgeR_, as advised by `Soneson and Robinson 2018 <https://www.nature.com/articles/nmeth.4612>`_.
 {% endif %}
-
+{% if snakemake.config["celltype"] %}
+Cell types were assigned to each cell via CellAssign_, using predefined marker genes.
+{% endif %}
 
 .. _CellAssign: https://doi.org/10.1101/521914
 .. _edgeR: https://bioconductor.org/packages/release/bioc/html/edgeR.html
