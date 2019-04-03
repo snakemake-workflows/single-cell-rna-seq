@@ -9,6 +9,7 @@ sink(log, type="message")
 
 library(scater)
 library(scran)
+library(ggsci)
 
 seed <- as.integer(snakemake@wildcards[["seed"]])
 
@@ -27,5 +28,5 @@ style <- theme(
 # plot t-SNE
 pdf(file=snakemake@output[[1]], width = 12)
 set.seed(seed)
-plotTSNE(sce, colour_by="celltype") + style
+plotTSNE(sce, colour_by="celltype") + scale_fill_d3(alpha = 1.0) + scale_colour_d3(alpha = 1.0) + style
 dev.off()

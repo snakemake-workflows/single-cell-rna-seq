@@ -26,7 +26,7 @@ y <- estimateDisp(y, design)
 fit <- glmQLFit(y, design)
 qlf <- glmQLFTest(fit, coef = snakemake@params[["coef"]])
 
-write.table(qlf$table, file = snakemake@output[["table"]], sep = "\t", col.names = NA, row.names = TRUE)
+write.table(topTags(qlf, n = 10000, p.value = snakemake@params[["fdr"]]), file = snakemake@output[["table"]], sep = "\t", col.names = NA, row.names = TRUE)
 
 pdf(file = snakemake@output[["bcv"]])
 plotBCV(y)

@@ -2,6 +2,6 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
-  - bioconda::r-cellassign =0.99
+  - bioconda::r-cellassign =0.99.1
   - bioconda::bioconductor-singlecellexperiment =1.4
   - tensorflow =1.10

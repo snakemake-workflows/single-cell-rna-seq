@@ -21,7 +21,8 @@ rule edger:
     params:
         design=lambda w: config["diffexp"][w.test]["design"],
         celltypes=lambda w: config["diffexp"][w.test]["celltypes"],
-        coef=lambda w: config["diffexp"][w.test]["coef"]
+        coef=lambda w: config["diffexp"][w.test]["coef"],
+        fdr=lambda w: config["diffexp"][w.test]["fdr"]
     conda:
         "../envs/edger.yaml"
     script:

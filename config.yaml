@@ -45,10 +45,12 @@ diffexp:
     # E.g., 2 to test the first coefficient after the implicit intercept
     # (i.e., celltype in the example above).
     coef: 2
+    # False discovery rate to control for.
+    fdr: 0.05
     # Optional: constrain to cell types (comment out to use all cell types).
     celltypes:
-      - JUN+
-      - JUN-
+      - IFNy+
+      - IFNy-
 
 species: human
 
