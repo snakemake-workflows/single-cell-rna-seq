@@ -2,6 +2,7 @@
 
 [![Snakemake](https://img.shields.io/badge/snakemake-≥5.1.4-brightgreen.svg)](https://snakemake.bitbucket.io)
 [![Build Status](https://travis-ci.org/snakemake-workflows/single-cell-rna-seq.svg?branch=master)](https://travis-ci.org/snakemake-workflows/single-cell-rna-seq)
+[![Snakemake-Report](https://img.shields.io/badge/snakemake-report-green.svg)](https://cdn.rawgit.com/snakemake-workflows/single-cell-rna-seq/master/.test/report.html)
 
 This is the template for a new Snakemake workflow. Replace this text with a comprehensive description covering the purpose and domain.
 Insert your code into the respective folders, i.e. `scripts`, `rules`, and `envs`. Define the entry point of the workflow in the `Snakefile` and the main configuration in the `config.yaml` file.
