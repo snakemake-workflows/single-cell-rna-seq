@@ -10,15 +10,15 @@ sink(log, type="message")
 library(scater)
 library(scran)
 library(ggsci)
+source(file.path(snakemake@scriptdir, "common.R"))
 
 seed <- as.integer(snakemake@wildcards[["seed"]])
 
 sce <- readRDS(snakemake@input[["sce"]])
 
 for(cellassign_fit in snakemake@input[["fits"]]) {
-    cellassign_fit <- readRDS(cellassign_fit)$cell_type
-    # assign determined cell types
-    colData(sce)[rownames(cellassign_fit), "celltype"] <- sapply(cellassign_fit$cell_type, as.character)
+    cellassign_fit <- readRDS(cellassign_fit)
+    sce <- assign_celltypes(cellassign_fit, sce)
 }
 
 style <- theme(

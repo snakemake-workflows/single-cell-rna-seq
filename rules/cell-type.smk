@@ -12,7 +12,8 @@ rule cellassign:
         markers=report(config["celltype"]["markers"], caption="../report/markers.rst", category="Cell Type Classification"),
         fit=get_parent_fit
     output:
-        protected("analysis/cellassign.{parent}.rds")
+        fit=protected("analysis/cellassign.{parent}.rds"),
+        heatmap="plots/celltype-markers.{parent}.pdf"
     log:
         "logs/cellassign/{parent}.log"
     conda:

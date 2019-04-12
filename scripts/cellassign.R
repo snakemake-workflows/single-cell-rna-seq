@@ -7,6 +7,9 @@ sink(log, type="message")
 
 library(SingleCellExperiment)
 library(cellassign)
+library(ComplexHeatmap)
+library(viridis)
+library(ggsci)
 
 sce <- readRDS(snakemake@input[["sce"]])
 parent <- snakemake@wildcards[["parent"]]
@@ -52,7 +55,6 @@ for(i in 1:nrow(markers)) {
 marker_mat <- t(marker_mat)
 marker_mat <- marker_mat[rownames(marker_mat) %in% rownames(sce), ]
 
-
 # apply cellAssign
 sce <- sce[rownames(marker_mat), ]
 fit <- cellassign(exprs_obj = sce, marker_gene_info = marker_mat, s = sizeFactors(sce), learning_rate = 1e-2, B = 20, shrinkage = TRUE)
@@ -63,4 +65,15 @@ rownames(fit$mle_params$gamma) <- cells
 fit$cell_type <- data.frame(cell_type = fit$cell_type)
 rownames(fit$cell_type) <- cells
 
-saveRDS(fit, file = snakemake@output[[1]])
+saveRDS(fit, file = snakemake@output[["fit"]])
+
+# plot heatmap
+source(file.path(snakemake@scriptdir, "common.R"))
+sce <- assign_celltypes(fit, sce)
+
+pdf(file = snakemake@output[["heatmap"]])
+pal <- pal_d3("category20")(ncol(marker_mat))
+names(pal) <- colnames(marker_mat)
+celltype <- HeatmapAnnotation(df = data.frame(celltype = colData(sce)$celltype), col = list(celltype = pal))
+Heatmap(logcounts(sce), col = viridis(100), clustering_distance_rows = "canberra", use_raster = TRUE, show_row_dend = FALSE, show_column_dend = FALSE, show_column_names = FALSE, top_annotation = celltype, name = "logcounts")
+dev.off()
