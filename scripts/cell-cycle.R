@@ -23,7 +23,7 @@ if (species == "mouse") {
 }
 
 # read trained data
-pairs <- readRDS(system.file("exdata", markers, package="scran"))
+pairs <- readRDS(system.file("extdata", markers, package="scran"))
 
 # obtain assignments
 assignments <- cyclone(sce, pairs, gene.names=rowData(sce)$ensembl_gene_id)
