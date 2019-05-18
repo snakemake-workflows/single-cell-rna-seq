@@ -8,7 +8,7 @@ counts:
   # specify count table (rows: genes/transcripts/spikes, cols: cells)
   path: counts.tsv
   # define which kind of features are described in each row (must be a term understood by Ensembl biomart, e.g. ensembl_gene_id, hgnc_symbol)
-  feature_ids: hgnc_symbol
+  feature_ids: ensembl_gene_id
 
 # Variables to use for batch effect removal and as factors to be ignored in variance
 # analysis. This should always be the two cell cycle phases (G1, G2M) which are
