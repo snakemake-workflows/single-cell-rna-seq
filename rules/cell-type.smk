@@ -13,7 +13,7 @@ rule cellassign:
         fit=get_parent_fit
     output:
         fit=protected("analysis/cellassign.{parent}.rds"),
-        heatmap="plots/celltype-markers.{parent}.pdf"
+        heatmap=report("plots/celltype-markers.{parent}.pdf", caption="../report/celltype-markers.rst", category="Cell Type Classification")
     log:
         "logs/cellassign/{parent}.log"
     conda:
