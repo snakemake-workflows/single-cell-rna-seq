@@ -27,7 +27,7 @@ model:
   # between any two cells.
   min-bio-comp: 0.5
   # FDR threshold for selecting highly variable genes/transcripts (HVGs)
-  fdr: 0.001
+  fdr: 0.05
   # show the expression distribution of the top n HVGs
   show-n: 20
   # compute correlation for top n HVGs
@@ -73,4 +73,4 @@ spike-ins:
 
 filtering:
   # Remove all genes with a  mean count less than the given threshold.
-  min-avg-count: 10
+  min-avg-count: 1
