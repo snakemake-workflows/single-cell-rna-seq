@@ -24,7 +24,7 @@ rule cell_cycle_scores:
         rds="analysis/cell-cycle-assignments.rds",
         cells="cells.tsv"
     output:
-        report("plots/cycle-scores.{covariate}.svg",
+        report("plots/cycle-scores.{covariate}.pdf",
                caption="../report/cycle-scores.rst",
                category="Quality Control")
     log:

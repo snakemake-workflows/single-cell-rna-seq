@@ -25,10 +25,10 @@ rule filter_genes:
         "analysis/filtered-cells.rds"
     output:
         rds="analysis/filtered.rds",
-        hist=report("plots/avg-counts.svg",
+        hist=report("plots/avg-counts.pdf",
                     caption="../report/avg-counts.rst",
                     category="Filtration"),
-        top_genes=report("plots/50-highest-genes.svg",
+        top_genes=report("plots/50-highest-genes.pdf",
                          caption="../report/50-highest-genes.rst",
                          category="Filtration")
     params:

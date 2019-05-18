@@ -8,16 +8,16 @@ rule qc:
     input:
         "analysis/all.rds"
     output:
-        libsizes=report("plots/library-size.svg",
+        libsizes=report("plots/library-size.pdf",
                         caption="../report/library-size.rst",
                         category="Quality Control"),
-        expressed=report("plots/expressed-genes.svg",
+        expressed=report("plots/expressed-genes.pdf",
                          caption="../report/expressed-genes.rst",
                          category="Quality Control"),
-        mito_proportion=report("plots/mito-proportion.svg",
+        mito_proportion=report("plots/mito-proportion.pdf",
                                caption="../report/mito-proportion.rst",
                                category="Quality Control"),
-        spike_proportion=report("plots/spike-proportion.svg",
+        spike_proportion=report("plots/spike-proportion.pdf",
                                 caption="../report/spike-proportion.rst",
                                 category="Quality Control")
     log:
@@ -33,7 +33,7 @@ rule explained_variance:
         rds="analysis/normalized.rds",
         cells="cells.tsv"
     output:
-        report("plots/explained-variance.svg",
+        report("plots/explained-variance.pdf",
                caption="../report/explained-variance.rst",
                category="Quality Control")
     log:

@@ -11,16 +11,21 @@ import pandas as pd
 configfile: "config.yaml"
 validate(config, schema="schemas/config.schema.yaml")
 
-cells = pd.read_table(config["cells"]).set_index("id", drop=False)
+cells = pd.read_csv(config["cells"], sep="\t").set_index("id", drop=False)
 validate(cells, schema="schemas/cells.schema.yaml")
+
+markers = None
+if "markers" in config.get("celltype", {}):
+    markers = pd.read_csv(config["celltype"]["markers"], sep="\t").set_index("name", drop=False)
+    markers.loc[:, "parent"].fillna("root", inplace=True)
 
 
 targets_qc = [
-    "plots/library-size.svg",
-    "plots/expressed-genes.svg",
-    "plots/mito-proportion.svg",
-    "plots/spike-proportion.svg",
-    "plots/explained-variance.svg"
+    "plots/library-size.pdf",
+    "plots/expressed-genes.pdf",
+    "plots/mito-proportion.pdf",
+    "plots/spike-proportion.pdf",
+    "plots/explained-variance.pdf"
 ]
 
 
@@ -29,19 +34,28 @@ targets_qc = [
 rule all:
     input:
         targets_qc,
-        "plots/hvg-expr-dists.svg",
-        "plots/mean-vs-variance.svg",
+        "plots/hvg-expr-dists.pdf",
+        "plots/mean-vs-variance.pdf",
         "tables/hvg.tsv",
         "tables/hvg-correlations.tsv",
-        "plots/hvg-clusters.svg",
-        "plots/hvg-corr-heatmap.svg",
-        expand("plots/cycle-scores.{covariate}.svg",
+        "plots/hvg-clusters.pdf",
+        "plots/hvg-corr-heatmap.pdf",
+        expand("plots/cycle-scores.{covariate}.pdf",
                covariate=cells.columns[1:]),
-        expand("plots/hvg-pca.{covariate}.svg",
+        expand("plots/hvg-pca.{covariate}.pdf",
                covariate=cells.columns[1:]),
-        expand("plots/hvg-tsne.{covariate}.seed={seed}.svg",
+        expand("plots/hvg-tsne.{covariate}.seed={seed}.pdf",
                covariate=cells.columns[1:],
-               seed=[23213, 789789, 897354])
+               seed=[23213, 789789, 897354]),
+        expand("plots/cellassign.{parent}.pdf",
+               parent=markers["parent"].unique()),
+        expand("plots/celltype-tsne.seed={seed}.pdf",
+               seed=[23213, 789789, 897354]),
+        expand(["tables/diffexp.{test}.tsv",
+                "plots/diffexp.{test}.bcv.pdf",
+                "plots/diffexp.{test}.md.pdf",
+                "plots/diffexp.{test}.disp.pdf"],
+               test=config["diffexp"])
 
 
 rule all_qc:
@@ -69,3 +83,5 @@ include: "rules/filtration.smk"
 include: "rules/cell-cycle.smk"
 include: "rules/normalization.smk"
 include: "rules/variance.smk"
+include: "rules/cell-type.smk"
+include: "rules/diffexp.smk"

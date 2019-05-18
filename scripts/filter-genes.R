@@ -18,7 +18,7 @@ keep <- ave.counts >= threshold
 
 
 # plot hist of average counts and mark threshold
-svg(file=snakemake@output[["hist"]])
+pdf(file=snakemake@output[["hist"]])
 hist(log10(ave.counts), breaks=100, main="", col="grey80",
      xlab=expression(Log[10]~"average count"))
 abline(v=log10(threshold), col="blue", lwd=2, lty=2)
@@ -26,7 +26,7 @@ dev.off()
 
 
 # plot top genes
-svg(file=snakemake@output[["top_genes"]])
+pdf(file=snakemake@output[["top_genes"]])
 fontsize <- theme(axis.text=element_text(size=12), axis.title=element_text(size=16))
 plotQC(sce, type="highest-expression", n=50) + theme(
     axis.text=element_text(size=12),

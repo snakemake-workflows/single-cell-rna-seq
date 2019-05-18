@@ -14,20 +14,6 @@ sink(log, type="message")
 library(scater)
 library(scran)
 
-##### taken from scater 1.8.0                    #####
-##### TODO remove once switching to scater 1.8.0 #####
-uniquifyFeatureNames <- function(ID, names) {
-    if (length(ID)!=length(names)) {
-        stop("lengths of 'ID' and 'names' must be equal")
-    }
-    missing.name <- is.na(names)
-    names[missing.name] <- ID[missing.name]
-    dup.name <- names %in% names[duplicated(names)]
-    names[dup.name] <- paste0(names[dup.name], "_", ID[dup.name])
-    return(names)
-}
-######################################################
-
 
 all.counts <- as.matrix(read.table(snakemake@input[["counts"]], row.names=1, header=TRUE))
 all.annotation <- read.table(snakemake@input[["cells"]], row.names=1, header=TRUE)
@@ -48,7 +34,7 @@ if (species == "mouse") {
     stop("Unsupported species. Only mouse and human are supported.")
 }
 
-sce <- getBMFeatureAnnos(sce, filters=c("ensembl_gene_id"), attributes = c("ensembl_gene_id", symbol, "chromosome_name", "gene_biotype", "start_position", "end_position"), dataset=dataset)
+sce <- getBMFeatureAnnos(sce, filters=c(snakemake@params[["feature_ids"]]), attributes = c("ensembl_gene_id", symbol, "chromosome_name", "gene_biotype", "start_position", "end_position"), dataset=dataset)
 rowData(sce)[, "gene_symbol"] <- rowData(sce)[, symbol]
 rownames(sce) <- uniquifyFeatureNames(rownames(sce), rowData(sce)$gene_symbol)
 
@@ -61,5 +47,6 @@ isSpike(sce, "Spike") <- is.spike
 
 # calculate metrics
 sce <- calculateQCMetrics(sce, feature_controls=list(Spike=is.spike, Mt=is.mito))
+colData(sce)[, "detection_rate"] <- sce$total_features_by_counts / nrow(sce)
 
 saveRDS(sce, file=snakemake@output[[1]])

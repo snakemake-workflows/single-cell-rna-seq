@@ -9,24 +9,24 @@ sink(log, type="message")
 
 library(scater)
 library(scran)
+library(ggsci)
+source(file.path(snakemake@scriptdir, "common.R"))
 
 seed <- as.integer(snakemake@wildcards[["seed"]])
-fdr <- snakemake@params[["fdr"]]
-covariate <- gsub("-", ".", snakemake@wildcards[["covariate"]])
 
 sce <- readRDS(snakemake@input[["sce"]])
-var.cor <- read.table(snakemake@input[["var_cor"]], header=TRUE)
-sig.cor <- var.cor$FDR <= fdr
 
-# choose significantly correlated genes
-chosen <- unique(c(var.cor$gene1[sig.cor], var.cor$gene2[sig.cor]))
+for(cellassign_fit in snakemake@input[["fits"]]) {
+    cellassign_fit <- readRDS(cellassign_fit)
+    sce <- assign_celltypes(cellassign_fit, sce)
+}
 
 style <- theme(
     axis.text=element_text(size=12),
     axis.title=element_text(size=16))
 
 # plot t-SNE
-pdf(file=snakemake@output[[1]])
+pdf(file=snakemake@output[[1]], width = 12)
 set.seed(seed)
-plotTSNE(sce[chosen, ], colour_by=covariate) + style
+plotTSNE(sce, colour_by="celltype") + scale_fill_d3(alpha = 1.0) + scale_colour_d3(alpha = 1.0) + style
 dev.off()

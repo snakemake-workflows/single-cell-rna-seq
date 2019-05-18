@@ -23,7 +23,7 @@ style <- theme(
     axis.title=element_text(size=16))
 
 # plot PCA
-svg(file=snakemake@output[[1]])
+pdf(file=snakemake@output[[1]])
 plotPCA(sce[chosen, ], colour_by=covariate,
         ncomponents=3) + style
 dev.off()

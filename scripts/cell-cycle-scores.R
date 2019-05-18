@@ -17,7 +17,7 @@ covariate.values <- unique(annotation[, covariate])
 n <- length(covariate.values)
 
 # plot
-svg(file=snakemake@output[[1]])
+pdf(file=snakemake@output[[1]])
 # set color palette
 palette(brewer.pal(n=n, name="Dark2"))
 plot(assignments$score$G1, assignments$score$G2M,
