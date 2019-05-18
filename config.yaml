@@ -65,7 +65,7 @@ diffexp:
       - IFNy+
       - IFNy-
 
-species: human
+species: mouse
 
 spike-ins:
   # Regular expression pattern to detect spike-ins.
