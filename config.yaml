@@ -1,10 +1,13 @@
-# path to sheet describing each cell.
+# Path to sheet describing meta-information for each cell.
+# The first column has to contain the cell id, all other columns are optional.
+# They are added as metadata to the SingleCellExperiment object created in the
+# workflow.
 cells: cells.tsv
 
-# specify count table (rows: genes/transcripts/spikes, cols: cells)
 counts:
+  # specify count table (rows: genes/transcripts/spikes, cols: cells)
   path: counts.tsv
-  # define which kind of features are described in each row (must be a term understood by Ensembl biomart)
+  # define which kind of features are described in each row (must be a term understood by Ensembl biomart, e.g. ensembl_gene_id, hgnc_symbol)
   feature_ids: hgnc_symbol
 
 # Variables to use for batch effect removal and as factors to be ignored in variance
@@ -30,15 +33,25 @@ model:
   # compute correlation for top n HVGs
   top-n: 200
 
-# Comment in to assign cell type via signatures
-celltype: 
+# Comment out to not assign cell type via signatures
+celltype:
+  # Table describing markers for assignment of cell types.
+  # Columns: name (cell type name), parent (parent cell type name),
+  #          genes (comma-separated list of gene names/ids, as listed in the
+  #          count matrix)
+  # Thereby, parent is usually empty. If not, it means that assignment for that
+  # type happens recursively only on those cells that have been assigned to the
+  # parent type.
   markers: resources/markers.tsv
 
+# Comment out to not do differential expression analysis.
 diffexp:
+  # Add one entry per comparison here. The key below can be an arbitrary name.
   IFNy+-vs-IFNy-:
+    # EdgeR design formula.
     # Refer to any colData from SingleCellExperiment here.
     # In addition, you can use celltype and detection_rate
-    # (number of expressed genes in cell divided by total 
+    # (number of expressed genes in cell divided by total
     # number of genes in experiment).
     design: "~ celltype + detection_rate"
     # Which coefficients of the model should be tested equal to zero.
@@ -55,7 +68,9 @@ diffexp:
 species: human
 
 spike-ins:
+  # Regular expression pattern to detect spike-ins.
   pattern: "^ERCC"
 
 filtering:
+  # Remove all genes with a  mean count less than the given threshold.
   min-avg-count: 10
