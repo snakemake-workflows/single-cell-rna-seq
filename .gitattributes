@@ -1,5 +1,2 @@
 *.smk linguist-language=Python
 Snakefile linguist-language=Python
-config.yaml merge=ours
-cells.tsv merge=ours
-resources/markers.tsv merge=ours
