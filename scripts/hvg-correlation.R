@@ -14,9 +14,12 @@ library(Rgraphviz)
 library(gplots)
 
 
-sce <- readRDS(snakemake@input[["sce"]])
-hvgs <- read.table(snakemake@input[["hvg"]], row.names=1)[1:snakemake@params[["top_n"]], ]
 fdr <- snakemake@params[["fdr"]]
+sce <- readRDS(snakemake@input[["sce"]])
+hvgs <- read.table(snakemake@input[["hvg"]], row.names=1)
+
+topn <- min(nrow(hvgs), snakemake@params[["top_n"]])
+hvgs <- hvgs[1:topn, ]
 
 # find correlated pairs
 set.seed(100)

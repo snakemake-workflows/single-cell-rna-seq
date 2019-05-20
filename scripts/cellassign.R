@@ -57,6 +57,9 @@ marker_mat <- marker_mat[rownames(marker_mat) %in% rownames(sce), ]
 
 # apply cellAssign
 sce <- sce[rownames(marker_mat), ]
+if(nrow(sce) == 0) {
+    stop("Markers do not match any gene names in the count matrix.")
+}
 fit <- cellassign(exprs_obj = sce, marker_gene_info = marker_mat, s = sizeFactors(sce), learning_rate = 1e-2, B = 20, shrinkage = TRUE)
 
 # add cell names to results
