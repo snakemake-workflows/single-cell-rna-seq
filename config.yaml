@@ -47,7 +47,7 @@ celltype:
 # Comment out to not do differential expression analysis.
 diffexp:
   # Add one entry per comparison here. The key below can be an arbitrary name.
-  IFNy+-vs-IFNy-:
+  a-vs-b:
     # EdgeR design formula.
     # Refer to any colData from SingleCellExperiment here.
     # In addition, you can use celltype and detection_rate
@@ -62,8 +62,8 @@ diffexp:
     fdr: 0.05
     # Optional: constrain to cell types (comment out to use all cell types).
     celltypes:
-      - IFNy+
-      - IFNy-
+      - a
+      - b
 
 species: mouse
 
