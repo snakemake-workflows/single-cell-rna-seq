@@ -1,3 +1,6 @@
 name	parent	genes
-a		Shld1
-b		1110038B12Rik
+T-cell		Ptprc, Cd2, Cd3d, Cd3e, Cd3g
+Macrophage		Cd14, Cd163, Csf1r
+Endothelial-cell		Pecam1, Vwf, Cdh5
+Fibroblast		Fap, Thy1, Dcn, Col1a1, Col1a2, Col6a1, Col6a2, Col6a3
+Other		

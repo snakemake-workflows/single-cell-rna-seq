@@ -13,13 +13,14 @@ for(cellassign_fit in snakemake@input[["cellassign_fits"]]) {
     colData(sce)[rownames(cellassign_fit), "celltype"] <- sapply(cellassign_fit$cell_type, as.character)
 }
 # only keep the requested cells
-sce <- sce[, colData(sce)$celltype %in% snakemake@params[["celltypes"]]]
+if(length(snakemake@params[["celltypes"]]) > 0) {
+    sce <- sce[, colData(sce)$celltype %in% snakemake@params[["celltypes"]]]
+}
 colData(sce)$celltype <- factor(colData(sce)$celltype)
 colData(sce)$detection_rate <- cut(colData(sce)$detection_rate, 10)
 
 # convert to edgeR input
-y <- convertTo(sce, type = "edgeR", col.fields = c("celltype", "detection_rate"))
-
+y <- convertTo(sce, type = "edgeR", col.fields=colnames(colData(sce)))
 design <- model.matrix(as.formula(snakemake@params[["design"]]), data=y$samples)
 y <- calcNormFactors(y)
 y <- estimateDisp(y, design)

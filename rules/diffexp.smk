@@ -1,7 +1,13 @@
 def get_fits(wildcards):
     celltypes = config["diffexp"][wildcards.test].get("celltypes", [])
     if celltypes:
-        parents = markers.loc[celltypes, "parent"].unique()
+        try:
+            parents = markers.loc[celltypes, "parent"].unique()
+        except KeyError:
+            raise WorkflowError(
+                "Given celltypes {} not defined in markers "
+                "(see config).".format(celltypes)
+            )
     else:
         parents = markers["parent"].unique()
     return expand("analysis/cellassign.{parent}.rds", parent=parents)
