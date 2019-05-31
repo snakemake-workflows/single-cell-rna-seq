@@ -13,3 +13,4 @@ dependencies:
   - r-rtsne =0.13
   - bioconductor-biomart =2.38
   - r-ggsci =2.9
+  - r-xml2 =1.2
