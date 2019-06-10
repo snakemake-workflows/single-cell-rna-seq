@@ -1,0 +1,9 @@
+name	parent	genes
+T-cell		PTPRC, CD2, CD3D, CD3E, CD3G
+B-cell		PTPRC, CD19, CD79A, CD79B
+Macrophage		CD14, CD163, CSF1R
+Endothelial-cell		PECAM1, VWF, CDH5
+Fibroblast/myofibroblast		FAP, THY1, DCN, COL1A1, COL1A2, COL6A1, COL6A2, COL6A3
+Malignant		CDK2, MIA, SOX10, CSPG4
+IFNy+	Malignant	IRF1, IDO1
+IFNy-	Malignant	MITF, PMEL, TYR

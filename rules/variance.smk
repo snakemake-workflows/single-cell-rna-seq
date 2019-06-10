@@ -14,10 +14,10 @@ rule hvg:
         hvg=report("tables/hvg.tsv",
                    caption="../report/hvg.rst",
                    category="Highly Variable Genes"),
-        hvg_expr_dist=report("plots/hvg-expr-dists.svg",
+        hvg_expr_dist=report("plots/hvg-expr-dists.pdf",
                              caption="../report/hvg-expr-dists.rst",
                              category="Highly Variable Genes"),
-        mean_vs_variance=report("plots/mean-vs-variance.svg",
+        mean_vs_variance=report("plots/mean-vs-variance.pdf",
                                 caption="../report/mean-vs-variance.rst",
                                 category="Highly Variable Genes")
     params:
@@ -41,14 +41,15 @@ rule correlation:
         corr=report("tables/hvg-correlations.tsv",
                     caption="../report/hvg-correlations.rst",
                     category="Highly Variable Genes"),
-        graph=report("plots/hvg-clusters.svg",
+        graph=report("plots/hvg-clusters.pdf",
                      caption="../report/hvg-clusters.rst",
                      category="Highly Variable Genes"),
-        heatmap=report("plots/hvg-corr-heatmap.svg",
+        heatmap=report("plots/hvg-corr-heatmap.pdf",
                        caption="../report/hvg-corr-heatmap.rst",
                        category="Highly Variable Genes")
     params:
-        fdr=config["model"]["fdr"]
+        fdr=config["model"]["fdr"],
+        top_n=config["model"]["top-n"]
     log:
         "logs/hvg-correlation.log"
     conda:
@@ -62,7 +63,7 @@ rule hvg_pca:
         sce="analysis/normalized.batch-removed.rds",
         var_cor="tables/hvg-correlations.tsv"
     output:
-        report("plots/hvg-pca.{covariate}.svg",
+        report("plots/hvg-pca.{covariate}.pdf",
                    caption="../report/hvg-corr-pca.rst",
                    category="Dimension Reduction")
     params:
@@ -80,7 +81,7 @@ rule hvg_tsne:
         sce="analysis/normalized.batch-removed.rds",
         var_cor="tables/hvg-correlations.tsv"
     output:
-        report("plots/hvg-tsne.{covariate}.seed={seed}.svg",
+        report("plots/hvg-tsne.{covariate}.seed={seed}.pdf",
                    caption="../report/hvg-corr-tsne.rst",
                    category="Dimension Reduction")
     params:
@@ -90,7 +91,6 @@ rule hvg_tsne:
     conda:
         "../envs/eval.yaml"
     wildcard_constraints:
-        perplexity="[0-9]+",
         seed="[0-9]+"
     script:
         "../scripts/hvg-tsne.R"

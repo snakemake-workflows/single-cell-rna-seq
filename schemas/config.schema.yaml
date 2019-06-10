@@ -6,7 +6,12 @@ type: object
 
 properties:
   counts:
-    type: string
+    type: object
+    properties:
+      path:
+        type: string
+      feature_ids:
+        type: string
 
   cells:
     type: string

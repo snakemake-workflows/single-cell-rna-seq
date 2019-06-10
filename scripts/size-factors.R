@@ -19,6 +19,7 @@ plot(sizeFactors(sce), sce$total_counts/1e6, log="xy",
      ylab="Library size (millions)", xlab="Size factor")
 dev.off()
 
-sce <- normalize(sce)
+#sce <- computeSpikeFactors(sce, type="Spike", general.use=FALSE)
+#sce <- normalize(sce)
 
 saveRDS(sce, file=snakemake@output[["rds"]])
