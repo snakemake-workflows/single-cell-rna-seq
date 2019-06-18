@@ -40,7 +40,7 @@ diffexp:
     # In addition, you can use celltype and detection_rate
     # (number of expressed genes in cell divided by total 
     # number of genes in experiment).
-    design: "~ celltype + detection_rate"
+    design: "~ celltype + sample + treatment_group + cohort + detection_rate"
     # Which coefficients of the model should be tested equal to zero.
     # E.g., 2 to test the first coefficient after the implicit intercept
     # (i.e., celltype in the example above).

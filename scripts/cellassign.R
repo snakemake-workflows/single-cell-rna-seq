@@ -57,6 +57,8 @@ marker_mat <- marker_mat[rownames(marker_mat) %in% rownames(sce), ]
 
 # apply cellAssign
 sce <- sce[rownames(marker_mat), ]
+# remove genes with 0 counts in all cells and cells with 0 counts in all genes
+sce <- sce[rowSums(counts(sce)) != 0, colSums(counts(sce)) != 0]
 fit <- cellassign(exprs_obj = sce, marker_gene_info = marker_mat, s = sizeFactors(sce), learning_rate = 1e-2, B = 20, shrinkage = TRUE)
 
 # add cell names to results

@@ -18,7 +18,7 @@ colData(sce)$celltype <- factor(colData(sce)$celltype)
 colData(sce)$detection_rate <- cut(colData(sce)$detection_rate, 10)
 
 # convert to edgeR input
-y <- convertTo(sce, type = "edgeR", col.fields = c("celltype", "detection_rate"))
+y <- convertTo(sce, type = "edgeR", col.fields = colnames(colData(sce)))
 
 design <- model.matrix(as.formula(snakemake@params[["design"]]), data=y$samples)
 y <- calcNormFactors(y)
