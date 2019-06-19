@@ -10,7 +10,8 @@ rule cellassign:
     input:
         sce="analysis/normalized.batch-removed.rds",
         markers=report(config["celltype"]["markers"], caption="../report/markers.rst", category="Cell Type Classification"),
-        fit=get_parent_fit
+        fit=get_parent_fit,
+        design_matrix="analysis/design-matrix.rds"
     output:
         fit=protected("analysis/cellassign.{parent}.rds"),
         heatmap=report("plots/celltype-markers.{parent}.pdf", caption="../report/celltype-markers.rst", category="Cell Type Classification")
