@@ -22,7 +22,8 @@ rule edger:
         design=lambda w: config["diffexp"][w.test]["design"],
         celltypes=lambda w: config["diffexp"][w.test]["celltypes"],
         coef=lambda w: config["diffexp"][w.test]["coef"],
-        fdr=lambda w: config["diffexp"][w.test]["fdr"]
+        fdr=lambda w: config["diffexp"][w.test]["fdr"],
+        exclude_coef=lambda w: config["diffexp"][w.test]["exclude-coefficients"]
     conda:
         "../envs/edger.yaml"
     script:

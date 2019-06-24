@@ -20,7 +20,9 @@ colData(sce)$detection_rate <- cut(colData(sce)$detection_rate, 10)
 # convert to edgeR input
 y <- convertTo(sce, type = "edgeR", col.fields = colnames(colData(sce)))
 
+# obtain design matrix
 design <- model.matrix(as.formula(snakemake@params[["design"]]), data=y$samples)
+
 y <- calcNormFactors(y)
 y <- estimateDisp(y, design)
 fit <- glmQLFit(y, design)
