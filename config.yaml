@@ -13,7 +13,7 @@ counts:
 # name of the cell sheet (see above).
 model:
   # R formula representing known batch effects
-  design: "~ G1 + G2M + cohort + treatment_group"
+  design: "~ G1 + G2M + cohort + treatment_group + detection_rate"
   # Rely on spike-ins for variance model estimation.
   # This is usually not desired because of few and noisy spike-ins.
   # If this is set to false, engogeneous genes are used instead, under the
