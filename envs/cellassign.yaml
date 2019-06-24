@@ -9,3 +9,4 @@ dependencies:
   - r-viridis =0.5
   - r-png =0.1
   - r-ggsci =2.9
+  - r-base =3.5.1

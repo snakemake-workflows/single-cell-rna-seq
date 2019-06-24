@@ -15,9 +15,8 @@ counts:
 # determined automatically during analysis. In addition, you may add any column
 # name of the cell sheet (see above).
 model:
-  variables:
-    - "G1"
-    - "G2M"
+  # R formula representing known batch effects
+  design: "~ G1 + G2M + detection_rate"
   # Rely on spike-ins for variance model estimation.
   # This is usually not desired because of few and noisy spike-ins.
   # If this is set to false, engogeneous genes are used instead, under the
@@ -53,7 +52,7 @@ diffexp:
     # In addition, you can use celltype and detection_rate
     # (number of expressed genes in cell divided by total
     # number of genes in experiment).
-    design: "~ test.condition"
+    design: "~ test.condition + G1 + G2M + detection_rate"
     # Which coefficients of the model should be tested equal to zero.
     # E.g., 2 to test the first coefficient after the implicit intercept
     # (i.e., celltype in the example above).

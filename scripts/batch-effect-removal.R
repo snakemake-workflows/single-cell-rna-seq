@@ -12,22 +12,17 @@ library(limma)
 
 sce <- readRDS(snakemake@input[["sce"]])
 cycle.assignments <- readRDS(snakemake@input[["cycles"]])
-model.vars <- colData(sce)
-model.vars$G1 <- cycle.assignments$scores$G1
-model.vars$G2M <- cycle.assignments$scores$G2M
+colData(sce)$G1 <- cycle.assignments$scores$G1
+colData(sce)$G2M <- cycle.assignments$scores$G2M
 
 # setup design matrix
-model <- ~ 1
-for (variable in snakemake@params[["model_variables"]]) {
-    model <- update(model, ~ . + model.vars[, variable])
-}
-design <- model.matrix(model)
-colnames(design) <- snakemake@params[["model_variables"]]
+model <- snakemake@params[["model"]]
+design <- model.matrix(as.formula(model), data=colData(sce))
 
 # store design matrix
 saveRDS(design, file=snakemake@output[["design_matrix"]])
 
 # remove batch effects based on variables
-batch.removed <- removeBatchEffect(logcounts(sce), covariates=model.vars[, snakemake@params[["model_variables"]]])
+batch.removed <- removeBatchEffect(logcounts(sce), covariates=design)
 logcounts(sce) <- batch.removed
 saveRDS(sce, file=snakemake@output[["sce"]])

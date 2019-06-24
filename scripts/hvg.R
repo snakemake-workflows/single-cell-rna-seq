@@ -17,7 +17,6 @@ min.bio.comp <- snakemake@params[["min_bio_comp"]]
 sce <- readRDS(snakemake@input[["sce_norm"]])
 design <- readRDS(snakemake@input[["design_matrix"]])
 
-
 # apply trend model to obtain per-gene variance
 # batch effects are modeled in design matrix
 var.fit <- trendVar(sce, use.spikes=use.spikes, design=design)

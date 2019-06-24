@@ -29,7 +29,7 @@ rule batch_effect_removal:
         design_matrix="analysis/design-matrix.rds",
         sce="analysis/normalized.batch-removed.rds"
     params:
-        model_variables=config["model"]["variables"]
+        model=config["model"]["design"]
     log:
         "logs/batch-effect-removal.log"
     conda:
