@@ -65,7 +65,7 @@ Whenever you change something, don't forget to commit the changes back to your g
     git commit -a
     git push
 
-### Step 6: Contribute back
+#### Step 6: Contribute back
 
 In case you have also changed or added steps, please consider contributing them back to the original repository:
 
