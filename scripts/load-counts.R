@@ -34,7 +34,7 @@ if (species == "mouse") {
     stop("Unsupported species. Only mouse and human are supported.")
 }
 
-sce <- getBMFeatureAnnos(sce, filters=c(snakemake@params[["feature_ids"]]), attributes = c("ensembl_gene_id", symbol, "chromosome_name", "gene_biotype", "start_position", "end_position"), dataset=dataset)
+sce <- getBMFeatureAnnos(sce, filters=c(snakemake@params[["feature_ids"]]), attributes = c("ensembl_gene_id", symbol, "chromosome_name", "gene_biotype", "start_position", "end_position"), dataset=dataset, host=snakemake@config[["counts"]][["biomart"]])
 rowData(sce)[, "gene_symbol"] <- rowData(sce)[, symbol]
 rownames(sce) <- uniquifyFeatureNames(rownames(sce), rowData(sce)$gene_symbol)
 

@@ -9,6 +9,8 @@ counts:
   path: counts.tsv
   # define which kind of features are described in each row (must be a term understood by Ensembl biomart, e.g. ensembl_gene_id, hgnc_symbol)
   feature_ids: ensembl_gene_id
+  # BioMart host to use (e.g. www.ensembl.org, useast.ensembl.org, ...)
+  biomart: useast.ensembl.org
 
 # Variables to use for batch effect removal and as factors to be ignored in variance
 # analysis. This should always be the two cell cycle phases (G1, G2M) which are
@@ -72,3 +74,4 @@ spike-ins:
 filtering:
   # Remove all genes with a  mean count less than the given threshold.
   min-avg-count: 1
+
