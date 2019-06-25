@@ -11,6 +11,10 @@ library(ComplexHeatmap)
 library(viridis)
 library(ggsci)
 
+is.float <- function(x) {
+    (typeof(x) == "double") && (x %% 1 != 0)
+}
+
 sce <- readRDS(snakemake@input[["sce"]])
 parent <- snakemake@wildcards[["parent"]]
 
@@ -31,7 +35,7 @@ trim <- function (x) gsub("^\\s+|\\s+$", "", x)
 get_genes <- function (x) {
     if(is.na(x)) {
         vector()
-    } else { 
+    } else {
         sapply(strsplit(x, ","), trim)
     }
 }
@@ -57,10 +61,20 @@ marker_mat <- marker_mat[rownames(marker_mat) %in% rownames(sce), ]
 
 # apply cellAssign
 sce <- sce[rownames(marker_mat), ]
+# remove genes with 0 counts in all cells and cells with 0 counts in all genes
+sce <- sce[rowSums(counts(sce)) != 0, colSums(counts(sce)) != 0]
+# obtain batch effect model
+model <- readRDS(snakemake@input[["design_matrix"]])
+# constrain to selected cells and remove intercept (not allowed for cellassign)
+model <- model[colnames(sce), colnames(model) != "(Intercept)"]
+# normalize float columns (as recommended in cellassign manual)
+float_cols <- apply(model, 2, is.float)
+model[, float_cols] <- apply(model[, float_cols], 2, scale)
 if(nrow(sce) == 0) {
     stop("Markers do not match any gene names in the count matrix.")
 }
-fit <- cellassign(exprs_obj = sce, marker_gene_info = marker_mat, s = sizeFactors(sce), learning_rate = 1e-2, B = 20, shrinkage = TRUE)
+# fit
+fit <- cellassign(exprs_obj = sce, marker_gene_info = marker_mat, s = sizeFactors(sce), learning_rate = 1e-2, B = 20, shrinkage = TRUE, X = model)
 
 # add cell names to results
 cells <- colnames(sce)

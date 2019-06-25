@@ -10,7 +10,8 @@ rule cellassign:
     input:
         sce="analysis/normalized.batch-removed.rds",
         markers=report(config["celltype"]["markers"], caption="../report/markers.rst", category="Cell Type Classification"),
-        fit=get_parent_fit
+        fit=get_parent_fit,
+        design_matrix="analysis/design-matrix.rds"
     output:
         fit=protected("analysis/cellassign.{parent}.rds"),
         heatmap=report("plots/celltype-markers.{parent}.pdf", caption="../report/celltype-markers.rst", category="Cell Type Classification")
@@ -22,20 +23,6 @@ rule cellassign:
         1000 # cellassign always uses the entire CPU
     script:
         "../scripts/cellassign.R"
-
-
-rule annotate_cellassign_fit:
-    input:
-        sce="analysis/normalized.batch-removed.rds",
-        fit="analysis/cellassign.{parent}.rds"
-    output:
-        "analysis/cellassign.{parent}.annotated.rds"
-    log:
-        "logs/cellassign-annotation/{parent}.log"
-    conda:
-        "../envs/cellassign.yaml"
-    script:
-        "../scripts/annotate-cellassign.R"
 
 
 rule plot_cellassign:

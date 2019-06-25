@@ -9,15 +9,16 @@ counts:
   path: counts.tsv
   # define which kind of features are described in each row (must be a term understood by Ensembl biomart, e.g. ensembl_gene_id, hgnc_symbol)
   feature_ids: ensembl_gene_id
+  # BioMart host to use (e.g. www.ensembl.org, useast.ensembl.org, ...)
+  biomart: useast.ensembl.org
 
 # Variables to use for batch effect removal and as factors to be ignored in variance
 # analysis. This should always be the two cell cycle phases (G1, G2M) which are
 # determined automatically during analysis. In addition, you may add any column
 # name of the cell sheet (see above).
 model:
-  variables:
-    - "G1"
-    - "G2M"
+  # R formula representing known batch effects
+  design: "~ G1 + G2M + detection_rate"
   # Rely on spike-ins for variance model estimation.
   # This is usually not desired because of few and noisy spike-ins.
   # If this is set to false, engogeneous genes are used instead, under the
@@ -73,3 +74,4 @@ spike-ins:
 filtering:
   # Remove all genes with a  mean count less than the given threshold.
   min-avg-count: 1
+
