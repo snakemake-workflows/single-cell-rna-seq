@@ -2,7 +2,7 @@
 
 [![Snakemake](https://img.shields.io/badge/snakemake-≥5.1.4-brightgreen.svg)](https://snakemake.bitbucket.io)
 [![Build Status](https://travis-ci.org/snakemake-workflows/single-cell-rna-seq.svg?branch=master)](https://travis-ci.org/snakemake-workflows/single-cell-rna-seq)
-[![Snakemake-Report](https://img.shields.io/badge/snakemake-report-green.svg)](https://cdn.rawgit.com/snakemake-workflows/single-cell-rna-seq/master/.test/report.html)
+[![Snakemake-Report](https://img.shields.io/badge/snakemake-report-green.svg)](https://koesterlab.github.io/resources/snakemake-workflows/single-cell-rna-seq/report.html)
 
 A single cell RNA-seq workflow following [Lun, McCarthy and Marioni 2016](https://f1000research.com/articles/5-2122/v2) and [Soneson and Robinson 2018](https://doi.org/10.1038/nmeth.4612), with added more recent functionality.
 
@@ -56,7 +56,7 @@ After successful execution, you can create a self-contained interactive HTML rep
     snakemake --report report.html
 
 This report can, e.g., be forwarded to your collaborators.
-An example (using some trivial test data) can be seen [here](https://cdn.rawgit.com/snakemake-workflows/single-cell-rna-seq/master/.test/report.html).
+An example (using some trivial test data) can be seen [here](https://koesterlab.github.io/resources/snakemake-workflows/single-cell-rna-seq/report.html).
 
 #### Step 5: Commit changes
 
