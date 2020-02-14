@@ -1,7 +1,7 @@
 # Snakemake workflow: single-cell-rna-seq
 
-[![Snakemake](https://img.shields.io/badge/snakemake-≥5.1.4-brightgreen.svg)](https://snakemake.bitbucket.io)
-[![Build Status](https://travis-ci.org/snakemake-workflows/single-cell-rna-seq.svg?branch=master)](https://travis-ci.org/snakemake-workflows/single-cell-rna-seq)
+[![Snakemake](https://img.shields.io/badge/snakemake-≥5.1.4-brightgreen.svg)](https://snakemake.readthedocs.io)
+[![GitHub actions status](https://github.com/snakemake-workflows/single-cell-rna-seq/workflows/Tests/badge.svg?branch=master)](https://github.com/snakemake-workflows/single-cell-rna-seq/actions?query=branch%3Amaster+workflow%3ATests)
 [![Snakemake-Report](https://img.shields.io/badge/snakemake-report-green.svg)](https://koesterlab.github.io/resources/snakemake-workflows/single-cell-rna-seq/report.html)
 
 A single cell RNA-seq workflow following [Lun, McCarthy and Marioni 2016](https://f1000research.com/articles/5-2122/v2) and [Soneson and Robinson 2018](https://doi.org/10.1038/nmeth.4612), with added more recent functionality.
@@ -12,7 +12,7 @@ A single cell RNA-seq workflow following [Lun, McCarthy and Marioni 2016](https:
 
 ## Usage
 
-In any case, if you use this workflow in a paper, don't forget to give credits to the authors by citing the URL of this (original) repository and, if available, its DOI (see above).
+In any case, if you use this workflow in a paper, don't forget to give credits to the authors by citing the URL of this (original) repository and, if already available, its DOI (see above).
 
 
 #### Step 1: Obtain a copy of this workflow
@@ -65,13 +65,25 @@ Whenever you change something, don't forget to commit the changes back to your g
     git commit -a
     git push
 
-#### Step 6: Contribute back
+
+#### Step 6: Obtain updates from upstream
+
+Whenever you want to synchronize your workflow copy with new developments from upstream, do the following.
+
+1. Once, register the upstream repository in your local copy: `git remote add -f upstream git@github.com:snakemake-workflows/single-cell-rna-seq.git` or `git remote add -f upstream https://github.com/snakemake-workflows/single-cell-rna-seq.git` if you do not have setup ssh keys.
+2. Update the upstream version: `git fetch upstream`.
+3. Create a diff with the current version: `git diff HEAD upstream/master workflow > upstream-changes.diff`.
+4. Investigate the changes: `vim upstream-changes.diff`.
+5. Apply the modified diff via: `git apply upstream-changes.diff`.
+6. Carefully check whether you need to update the config files: `git diff HEAD upstream/master config`. If so, do it manually, and only where necessary, since you would otherwise likely overwrite your settings and samples.
+
+#### Step 7: Contribute back
 
 In case you have also changed or added steps, please consider contributing them back to the original repository:
 
 1. [Fork](https://help.github.com/en/articles/fork-a-repo) the original repo to a personal or lab account.
 2. [Clone](https://help.github.com/en/articles/cloning-a-repository) the fork to your local system, to a different place than where you ran your analysis.
-3. Copy the modified files from your analysis to the clone of your fork, e.g., `cp -r envs rules scripts path/to/fork`. Make sure to **not** accidentally copy config file contents or sample sheets.
+3. Copy the modified files from your analysis to the clone of your fork, e.g., `cp -r workflow path/to/fork`. Make sure to **not** accidentally copy config file contents or sample sheets. Instead, manually update the example config files if necessary.
 4. Commit and push your changes to your fork.
 5. Create a [pull request](https://help.github.com/en/articles/creating-a-pull-request) against the original repository.
 
