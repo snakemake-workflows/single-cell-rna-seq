@@ -33,6 +33,11 @@ model:
   show-n: 20
   # compute correlation for top n HVGs
   top-n: 200
+  # Expressions below this logcount are considered as dropouts 
+  # logcounts are log2 transformed, including 1 pseudocount, normalized, 
+  # and batch effect corrected).
+  # This is currently only used for gene-vs-gene plots (see below).
+  dropout-threshold: 1
 
 # Comment out to not assign cell type via signatures
 celltype:
@@ -44,6 +49,32 @@ celltype:
   # type happens recursively only on those cells that have been assigned to the
   # parent type.
   markers: resources/markers.tsv
+  # Minimum gamma score for assigned cell type (resembles a posterior) to be
+  # considered as correctly assigned. Cells where the certainty of cellassign
+  # does not pass this threshold will show as celltype=NA.
+  min_gamma: 0.9
+  # Genes to create expression plots stratified by celltype for.
+  # This can be used to find the right selection of marker genes for cellassign.
+  expression-plot-genes:
+    - GBP1
+    - MYCN
+
+gene-vs-gene-plots:
+  all-malignant:
+    # uncomment below to perform a correlation of given type (pearson, spearman, ...)
+    correlation: spearman
+    # uncomment below to perform a regression with given formula
+    # regression: "y ~ x"
+    # constrain to cells of the following types (comment out if not needed)
+    constrain-celltypes:
+      - Malignant
+    pairs:
+      x: DDX58
+      y:
+        - IRF1
+        - CCL5
+        - CXCL10
+
 
 # Comment out to not do differential expression analysis.
 diffexp:
@@ -62,8 +93,21 @@ diffexp:
     # False discovery rate to control for.
     fdr: 0.05
     # Optional: constrain to cell types (comment out to use all cell types).
-    celltypes:
-      - Endothelial-cell
+    constrain-celltypes:
+      celltypes:
+        - Endothelial-cell
+      # Optional: constrain cells to those with the given covariate occurring in all celltypes 
+      # (comment in if needed).
+      # This can be used to avoid confounding of an important batch variable.
+      # E.g., if you want the differential expression across cell types, and sample is a 
+      # batch variable to control for, you need to ensure that each sample contains all
+      # considered cell types.
+      # common: sample
+    # Genes to plot
+    genes_of_interest:
+      - MITF
+      - MYCN
+
 
 species: mouse
 

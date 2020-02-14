@@ -6,6 +6,7 @@ sink(log)
 sink(log, type="message")
 
 library(SingleCellExperiment)
+library(tensorflow)
 library(cellassign)
 library(ComplexHeatmap)
 library(viridis)
@@ -45,7 +46,7 @@ for(g in markers$genes) {
 }
 genes <- sort(unique(genes))
 
-if(length(genes) < 2) {
+if(length(genes) < 1) {
     stop("Markers have to contain at least two different genes in union.")
 }
 
@@ -57,7 +58,8 @@ for(i in 1:nrow(markers)) {
     marker_mat[cell_type, ] <- genes %in% get_genes(markers[i, "genes"])
 }
 marker_mat <- t(marker_mat)
-marker_mat <- marker_mat[rownames(marker_mat) %in% rownames(sce), ]
+marker_mat <- marker_mat[rownames(marker_mat) %in% rownames(sce),, drop=FALSE]
+
 
 # apply cellAssign
 sce <- sce[rownames(marker_mat), ]
@@ -84,13 +86,14 @@ rownames(fit$cell_type) <- cells
 
 saveRDS(fit, file = snakemake@output[["fit"]])
 
+save.image()
 # plot heatmap
 source(file.path(snakemake@scriptdir, "common.R"))
-sce <- assign_celltypes(fit, sce)
+sce <- assign_celltypes(fit, sce, snakemake@params[["min_gamma"]])
 
 pdf(file = snakemake@output[["heatmap"]])
 pal <- pal_d3("category20")(ncol(marker_mat))
 names(pal) <- colnames(marker_mat)
 celltype <- HeatmapAnnotation(df = data.frame(celltype = colData(sce)$celltype), col = list(celltype = pal))
-Heatmap(logcounts(sce), col = viridis(100), clustering_distance_rows = "canberra", use_raster = TRUE, show_row_dend = FALSE, show_column_dend = FALSE, show_column_names = FALSE, top_annotation = celltype, name = "logcounts")
+Heatmap(logcounts(sce), col = viridis(100), clustering_distance_columns = "canberra", clustering_distance_rows = "canberra", use_raster = TRUE, show_row_dend = FALSE, show_column_dend = FALSE, show_column_names = FALSE, top_annotation = celltype, name = "logcounts")
 dev.off()

@@ -10,24 +10,14 @@ sink(log, type="message")
 library(scater)
 library(scran)
 library(ggsci)
-source(file.path(snakemake@scriptdir, "common.R"))
+library(viridis)
 
 seed <- as.integer(snakemake@wildcards[["seed"]])
-target_parent <- snakemake@wildcards[["parent"]]
-parents <- snakemake@params[["parents"]]
-fits <- snakemake@input[["fits"]]
+gene <- snakemake@wildcards[["gene"]]
 
 sce <- readRDS(snakemake@input[["sce"]])
 
-for(i in 1:length(fits)) {
-    cellassign_fit <- fits[i]
-    parent <- parents[i]
-    cellassign_fit <- readRDS(cellassign_fit)
-    sce <- assign_celltypes(cellassign_fit, sce, snakemake@params[["min_gamma"]])
-    if(parent == target_parent) {
-        break
-    }
-}
+colData(sce)[, gene] <- logcounts(sce)[gene, ]
 
 style <- theme(
     axis.text=element_text(size=12),
@@ -36,5 +26,5 @@ style <- theme(
 # plot t-SNE
 pdf(file=snakemake@output[[1]], width = 12)
 set.seed(seed)
-plotTSNE(sce, colour_by="celltype") + scale_fill_d3(alpha = 1.0) + scale_colour_d3(alpha = 1.0) + style
+plotTSNE(sce, colour_by=gene) + scale_fill_viridis(alpha = 1.0) + scale_colour_viridis(alpha = 1.0) + style
 dev.off()

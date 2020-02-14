@@ -3,9 +3,8 @@ channels:
   - bioconda
 dependencies:
   - bioconda::r-cellassign =0.99.2
-  - bioconda::bioconductor-singlecellexperiment =1.4
-  - tensorflow =1.10
-  - bioconda::bioconductor-complexheatmap =1.20
+  - tensorflow =1.13
+  - bioconda::bioconductor-complexheatmap =2.0.0
   - r-viridis =0.5
   - r-png =0.1
   - r-ggsci =2.9

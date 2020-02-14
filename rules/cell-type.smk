@@ -13,8 +13,10 @@ rule cellassign:
         fit=get_parent_fit,
         design_matrix="analysis/design-matrix.rds"
     output:
-        fit=protected("analysis/cellassign.{parent}.rds"),
+        fit="analysis/cellassign.{parent}.rds",
         heatmap=report("plots/celltype-markers.{parent}.pdf", caption="../report/celltype-markers.rst", category="Cell Type Classification")
+    params:
+        min_gamma=config["celltype"]["min_gamma"]
     log:
         "logs/cellassign/{parent}.log"
     conda:
@@ -43,14 +45,35 @@ rule celltype_tsne:
         sce="analysis/normalized.batch-removed.rds",
         fits=expand("analysis/cellassign.{parent}.rds", parent=markers["parent"].unique())
     output:
-        report("plots/celltype-tsne.seed={seed}.pdf",
+        report("plots/celltype-tsne.{parent}.seed={seed}.pdf",
                    caption="../report/celltype-tsne.rst",
                    category="Dimension Reduction")
+    params:
+        min_gamma=config["celltype"]["min_gamma"],
+        parents=markers["parent"].unique()
     log:
-        "logs/celltype-tsne/seed={seed}.log"
+        "logs/celltype-tsne/{parent}.seed={seed}.log"
     conda:
         "../envs/eval.yaml"
     wildcard_constraints:
         seed="[0-9]+"
     script:
         "../scripts/celltype-tsne.R"
+
+
+rule plot_celltype_expressions:
+    input:
+        sce="analysis/normalized.batch-removed.rds",
+        fit="analysis/cellassign.{parent}.rds"
+    output:
+        report("plots/celltype-expressions.{parent}.pdf", caption="../report/celltype-expressions.rst", category="Cell Type Classification")
+    params:
+        min_gamma=config["celltype"]["min_gamma"],
+        genes=config["celltype"]["expression-plot-genes"],
+        feature="celltype"
+    log:
+        "logs/plot-celltype-expressions/{parent}.log"
+    conda:
+        "../envs/eval.yaml"
+    script:
+        "../scripts/plot-gene-expression.R"

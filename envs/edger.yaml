@@ -6,3 +6,4 @@ dependencies:
   - bioconda::bioconductor-singlecellexperiment =1.4
   - bioconda::bioconductor-scran =1.10
   - r-base =3.5.1
+  - r-tidyverse =1.2

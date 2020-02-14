@@ -15,3 +15,4 @@ dependencies:
   - r-ggsci =2.9
   - r-base =3.5.1
   - r-xml2 =1.2
+  - r-ggpubr =0.2.3

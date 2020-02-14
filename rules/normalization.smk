@@ -12,6 +12,8 @@ rule normalize:
         scatter=report("plots/size-factors-vs-libsize.pdf",
                        caption="../report/size-factors.rst",
                        category="Normalization")
+    params:
+        min_count=config["filtering"]["min-avg-count"]
     log:
         "logs/normalize.log"
     conda:
