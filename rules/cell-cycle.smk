@@ -6,7 +6,7 @@
 
 rule cell_cycle:
     input:
-        "analysis/filtered-cells.rds"
+        "analysis/filtered.rds"
     output:
         "analysis/cell-cycle-assignments.rds"
     params:
