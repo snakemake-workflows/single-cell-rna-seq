@@ -28,6 +28,7 @@ targets_qc = [
     "plots/explained-variance.pdf"
 ]
 
+seeds = [23213, 789789, 897354]
 
 ######## target rules ##############
 
@@ -46,16 +47,27 @@ rule all:
                covariate=cells.columns[1:]),
         expand("plots/hvg-tsne.{covariate}.seed={seed}.pdf",
                covariate=cells.columns[1:],
-               seed=[23213, 789789, 897354]),
+               seed=seeds),
         expand("plots/cellassign.{parent}.pdf",
                parent=markers["parent"].unique()),
-        expand("plots/celltype-tsne.seed={seed}.pdf",
-               seed=[23213, 789789, 897354]),
+        expand("plots/celltype-tsne.{parent}.seed={seed}.pdf",
+               seed=seeds,
+               parent=markers["parent"].unique()),
+        expand("plots/gene-tsne/{gene}.tsne.seed={seed}.pdf",
+               seed=seeds,
+               gene=config["celltype"]["expression-plot-genes"]),
         expand(["tables/diffexp.{test}.tsv",
                 "plots/diffexp.{test}.bcv.pdf",
                 "plots/diffexp.{test}.md.pdf",
                 "plots/diffexp.{test}.disp.pdf"],
-               test=config["diffexp"])
+               test=config["diffexp"]),
+        [expand("plots/expression/{gene}.{test}.expression.pdf", test=name, gene=test["genes_of_interest"])
+         for name, test in config["diffexp"].items()],
+        expand("plots/celltype-expressions.{parent}.pdf", parent=markers["parent"].unique()),
+        [expand("plots/gene-vs-gene/{x}-vs-{y}.{settings}.expressions.pdf", 
+                x=entry["pairs"]["x"], y=y, settings=settings)
+         for settings, entry in config["gene-vs-gene-plots"].items()
+         for y in entry["pairs"]["y"]]
 
 
 rule all_qc:
