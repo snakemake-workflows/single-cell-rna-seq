@@ -6,17 +6,17 @@
 
 rule filter_cells:
     input:
-        "analysis/all.rds"
+        "analysis/all.rds",
     output:
         rds="analysis/filtered.rds",
-        stats=report("tables/cell-filtering.tsv",
-                     caption="../report/filtering.rst",
-                     category="Filtration")
+        stats=report(
+            "tables/cell-filtering.tsv",
+            caption="../report/filtering.rst",
+            category="Filtration",
+        ),
     log:
-        "logs/filter-cells.log"
+        "logs/filter-cells.log",
     conda:
         "../envs/eval.yaml"
     script:
         "../scripts/filter-cells.R"
-
-

@@ -6,13 +6,13 @@
 
 rule cell_cycle:
     input:
-        "analysis/filtered.rds"
+        "analysis/filtered.rds",
     output:
-        "analysis/cell-cycle-assignments.rds"
+        "analysis/cell-cycle-assignments.rds",
     params:
-        species=config["species"]
+        species=config["species"],
     log:
-        "logs/cell-cycle.log"
+        "logs/cell-cycle.log",
     conda:
         "../envs/eval.yaml"
     script:
@@ -22,13 +22,15 @@ rule cell_cycle:
 rule cell_cycle_scores:
     input:
         rds="analysis/cell-cycle-assignments.rds",
-        cells="cells.tsv"
+        cells="cells.tsv",
     output:
-        report("plots/cycle-scores.{covariate}.pdf",
-               caption="../report/cycle-scores.rst",
-               category="Quality Control")
+        report(
+            "plots/cycle-scores.{covariate}.pdf",
+            caption="../report/cycle-scores.rst",
+            category="Quality Control",
+        ),
     log:
-        "logs/cell-cycle-scores.{covariate}.log"
+        "logs/cell-cycle-scores.{covariate}.log",
     conda:
         "../envs/eval.yaml"
     script:
