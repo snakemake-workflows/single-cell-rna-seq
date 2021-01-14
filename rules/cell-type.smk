@@ -1,11 +1,3 @@
-def get_parent_fit(wildcards):
-    if wildcards.parent != "root":
-        parent = markers.loc[wildcards.parent, "parent"]
-        return f"analysis/cellassign.{parent}.rds"
-    else:
-        return []
-
-
 rule cellassign:
     input:
         sce="analysis/normalized.batch-removed.rds",
@@ -14,7 +6,7 @@ rule cellassign:
             caption="../report/markers.rst",
             category="Cell Type Classification",
         ),
-        fit=get_parent_fit,
+        fit=get_parent_cellassign_fit,
         design_matrix="analysis/design-matrix.rds",
     output:
         fit="analysis/cellassign.{parent}.rds",

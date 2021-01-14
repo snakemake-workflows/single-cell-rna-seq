@@ -102,12 +102,12 @@ rule all_qc:
         targets_qc,
 
 
-##### setup singularity #####
+##### setup containers #####
 
 
-# this container defines the underlying OS for each job when using the workflow
+# this container image defines the underlying OS for each job when using the workflow
 # with --use-conda --use-singularity
-singularity: "docker://continuumio/miniconda3"
+container: "docker://continuumio/miniconda3"
 
 
 ##### setup report #####
@@ -119,6 +119,7 @@ report: "report/workflow.rst"
 ##### load rules #####
 
 
+include: "rules/common.smk"
 include: "rules/counts.smk"
 include: "rules/qc.smk"
 include: "rules/filtration.smk"

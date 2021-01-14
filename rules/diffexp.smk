@@ -1,22 +1,7 @@
-def get_fits(wildcards):
-    celltypes = config["diffexp"][wildcards.test].get("celltypes", [])
-    if celltypes:
-        try:
-            parents = markers.loc[celltypes, "parent"].unique()
-        except KeyError:
-            raise WorkflowError(
-                "Given celltypes {} not defined in markers "
-                "(see config).".format(celltypes)
-            )
-    else:
-        parents = markers["parent"].unique()
-    return expand("analysis/cellassign.{parent}.rds", parent=parents)
-
-
 rule edger:
     input:
         sce="analysis/normalized.batch-removed.rds",
-        cellassign_fits=get_fits,
+        cellassign_fits=get_cellassign_fits,
     output:
         table=report(
             "tables/diffexp.{test}.tsv",
@@ -61,6 +46,8 @@ rule plot_expression:
             caption="../report/goi.rst",
             category="Differential Expression Analysis",
         ),
+    log:
+        "logs/plot-diffexp/{gene}.{test}.log",
     params:
         coef=lambda w: config["diffexp"][w.test]["coef"],
     conda:
