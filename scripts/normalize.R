@@ -12,12 +12,22 @@ library(scran)
 
 sce <- readRDS(snakemake@input[[1]])
 
+# MJ - disabling as these fail with small test dataset
+# Probably want to make the test dataset more representative
+# Or specify the 'changes below 'min.size' and 'sizes' options below
+# Within config file
+
+# # pre-cluster in order to group similar cells
+# # this avoids a violation of the non-DE assumption
+# preclusters <- quickCluster(sce)
+# # compute size factors by pooling cells according to the clustering
+# sce <- computeSumFactors(sce, clusters=preclusters, min.mean=snakemake@params[["min_count"]])
+
 # pre-cluster in order to group similar cells
 # this avoids a violation of the non-DE assumption
-preclusters <- quickCluster(sce)
-
+preclusters <- quickCluster(sce, min.size=1)
 # compute size factors by pooling cells according to the clustering
-sce <- computeSumFactors(sce, clusters=preclusters, min.mean=snakemake@params[["min_count"]])
+sce <- computeSumFactors(sce, sizes=seq(2,5), clusters=preclusters, min.mean=snakemake@params[["min_count"]])
 
 pdf(file=snakemake@output[["scatter"]])
 plot(sizeFactors(sce), sce$total_counts/1e6, log="xy",
