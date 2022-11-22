@@ -47,8 +47,6 @@ jobs:
     - name: Test workflow
       uses: snakemake/snakemake-github-action@master
       with:
-        # directory: .test
-        directory: "."
+        directory: .test
         snakefile: Snakefile
-        # args: "--use-conda --show-failed-logs "
-        args: "--use-conda --show-failed-logs --cores 1"
+        args: "--use-conda --show-failed-logs --cores 8"
