@@ -19,13 +19,14 @@ is.float <- function(x) {
 sce <- readRDS(snakemake@input[["sce"]])
 parent <- snakemake@wildcards[["parent"]]
 
-# get parent fit and filter sce to those cells
-parent_fit <- snakemake@input[["fit"]]
-if(length(parent_fit) > 0) {
-    parent_fit <- readRDS(parent_fit)$cell_type
-    is_parent_type <- rownames(parent_fit)[parent_fit$cell_type == parent]
-    sce <- sce[, is_parent_type]
-}
+# MJ - disabling: Does nothing for 'root' or filters out everything
+# # get parent fit and filter sce to those cells
+# parent_fit <- snakemake@input[["fit"]]
+# if(length(parent_fit) > 0) {
+#     parent_fit <- readRDS(parent_fit)$cell_type
+#     is_parent_type <- rownames(parent_fit)[parent_fit$cell_type == parent]
+#     sce <- sce[, is_parent_type]
+# }
 
 markers <- read.table(snakemake@input[["markers"]], row.names = NULL, header = TRUE, sep="\t", stringsAsFactors = FALSE, na.strings = "")
 markers[is.na(markers$parent), "parent"] <- "root"
@@ -65,6 +66,10 @@ marker_mat <- marker_mat[rownames(marker_mat) %in% rownames(sce),, drop=FALSE]
 sce <- sce[rownames(marker_mat), ]
 # remove genes with 0 counts in all cells and cells with 0 counts in all genes
 sce <- sce[rowSums(counts(sce)) != 0, colSums(counts(sce)) != 0]
+# MJ - Filter marker gene matrix again
+# To match sce after filtering for zeros
+# Matrix rows (gene names) must match exactly
+marker_mat <- marker_mat[rownames(marker_mat) %in% rownames(sce),, drop=FALSE]
 # obtain batch effect model
 model <- readRDS(snakemake@input[["design_matrix"]])
 # constrain to selected cells and remove intercept (not allowed for cellassign)
@@ -86,7 +91,6 @@ rownames(fit$cell_type) <- cells
 
 saveRDS(fit, file = snakemake@output[["fit"]])
 
-save.image()
 # plot heatmap
 source(file.path(snakemake@scriptdir, "common.R"))
 sce <- assign_celltypes(fit, sce, snakemake@params[["min_gamma"]])

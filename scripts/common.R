@@ -4,7 +4,14 @@ assign_celltypes <- function(cellassign_fit, sce, min_gamma, constrain_celltypes
     cell_type <- cellassign_fit$cell_type[max_gamma >= min_gamma,, drop=FALSE]
 
     if(!is.null(constrain_celltypes)) {
-        cell_type <- cell_type[sapply(cell_type, as.character) %in% constrain_celltypes,, drop=FALSE]
+      
+      matching_cells <- sapply(cell_type, as.character) %in% constrain_celltypes
+      
+      if(sum(matching_cells) == 0) {
+        warning("Zero cells matching constrain_celltypes. May break sce object colData. Check or adjust constrain-celltypes in config.")
+      }
+      
+      cell_type <- cell_type[matching_cells,, drop=FALSE]
     }
 
     # assign determined cell types

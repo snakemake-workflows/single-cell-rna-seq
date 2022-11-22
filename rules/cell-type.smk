@@ -21,7 +21,7 @@ rule cellassign:
         "logs/cellassign/{parent}.log",
     conda:
         "../envs/cellassign.yaml"
-    threads: 1000  # cellassign always uses the entire CPU
+    threads: 8 # cellassign always uses the entire CPU
     script:
         "../scripts/cellassign.R"
 

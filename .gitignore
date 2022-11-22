@@ -4,8 +4,11 @@
 !scripts/common
 !scripts/common/*
 scripts/.snakemake*
+scripts/.Rhistory
 !Snakefile
 !config.yaml
+!cells.tsv
+!counts.tsv
 !samples.tsv
 !resources
 !resources/*

@@ -10,7 +10,7 @@ counts:
   # define which kind of features are described in each row (must be a term understood by Ensembl biomart, e.g. ensembl_gene_id, hgnc_symbol)
   feature_ids: ensembl_gene_id
   # BioMart host to use (e.g. www.ensembl.org, useast.ensembl.org, ...)
-  biomart: useast.ensembl.org
+  biomart: www.ensembl.org
 
 # Variables to use for batch effect removal and as factors to be ignored in variance
 # analysis. This should always be the two cell cycle phases (G1, G2M) which are
@@ -21,7 +21,7 @@ model:
   design: "~ G1 + G2M + detection_rate"
   # Rely on spike-ins for variance model estimation.
   # This is usually not desired because of few and noisy spike-ins.
-  # If this is set to false, engogeneous genes are used instead, under the
+  # If this is set to false, endogeneous genes are used instead, under the
   # assumption that most of them are not differentially expressed.
   use-spikes: false
   # Minimum value of average difference in true (biological) log2 expression
@@ -56,8 +56,8 @@ celltype:
   # Genes to create expression plots stratified by celltype for.
   # This can be used to find the right selection of marker genes for cellassign.
   expression-plot-genes:
-    - GBP1
-    - MYCN
+    - Gbp2b
+    - Mycn
 
 gene-vs-gene-plots:
   all-malignant:
@@ -67,13 +67,16 @@ gene-vs-gene-plots:
     # regression: "y ~ x"
     # constrain to cells of the following types (comment out if not needed)
     constrain-celltypes:
-      - Malignant
+      # - Malignant
+      - "Endothelial-cell"
+      - "T-cell"
+      - "B-cell"
     pairs:
-      x: DDX58
+      x: Ddx58
       y:
-        - IRF1
-        - CCL5
-        - CXCL10
+        - Irf1
+        - Ccl5
+        - Cxcl10
 
 
 # Comment out to not do differential expression analysis.
@@ -95,7 +98,9 @@ diffexp:
     # Optional: constrain to cell types (comment out to use all cell types).
     constrain-celltypes:
       celltypes:
-        - Endothelial-cell
+        # - Endothelial-cell
+        - "IFNy+"
+        - "IFNy-"
       # Optional: constrain cells to those with the given covariate occurring in all celltypes 
       # (comment in if needed).
       # This can be used to avoid confounding of an important batch variable.
@@ -105,8 +110,8 @@ diffexp:
       # common: sample
     # Genes to plot
     genes_of_interest:
-      - MITF
-      - MYCN
+      - Mitf
+      - Mycn
 
 
 species: mouse
