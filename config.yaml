@@ -6,7 +6,7 @@ cells: cells.tsv
 
 counts:
   # specify count table (rows: genes/transcripts/spikes, cols: cells)
-  path: .test/counts.tsv
+  path: counts.tsv
   # define which kind of features are described in each row (must be a term understood by Ensembl biomart, e.g. ensembl_gene_id, hgnc_symbol)
   feature_ids: ensembl_gene_id
   # BioMart host to use (e.g. www.ensembl.org, useast.ensembl.org, ...)
