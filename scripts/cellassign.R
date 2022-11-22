@@ -28,6 +28,9 @@ parent <- snakemake@wildcards[["parent"]]
 #     sce <- sce[, is_parent_type]
 # }
 
+# Set tensorflow for condaenv
+tensorflow::use_condaenv()
+
 markers <- read.table(snakemake@input[["markers"]], row.names = NULL, header = TRUE, sep="\t", stringsAsFactors = FALSE, na.strings = "")
 markers[is.na(markers$parent), "parent"] <- "root"
 markers <- markers[markers$parent == parent, ]
