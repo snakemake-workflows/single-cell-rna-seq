@@ -4,6 +4,7 @@
 !scripts/common
 !scripts/common/*
 scripts/.snakemake*
+scripts/.Rhistory
 !Snakefile
 !config.yaml
 !samples.tsv
