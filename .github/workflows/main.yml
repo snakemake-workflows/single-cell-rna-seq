@@ -49,4 +49,5 @@ jobs:
       with:
         directory: .test
         snakefile: Snakefile
+        # args: "--use-conda --show-failed-logs "
         args: "--use-conda --show-failed-logs --cores 1"
