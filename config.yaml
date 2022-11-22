@@ -69,6 +69,7 @@ gene-vs-gene-plots:
     constrain-celltypes:
       # - Malignant
       - "T-cell"
+      - "B-cell"
     pairs:
       x: Ddx58
       y:
@@ -98,6 +99,7 @@ diffexp:
       celltypes:
         # - Endothelial-cell
         - "IFNy+"
+        - "IFNy-"
       # Optional: constrain cells to those with the given covariate occurring in all celltypes 
       # (comment in if needed).
       # This can be used to avoid confounding of an important batch variable.

@@ -23,6 +23,9 @@ aes_name <- function(name) {
 sce <- readRDS(snakemake@input[["sce"]])
 constrain_celltypes <- snakemake@params[["constrain_celltypes"]]
 
+# This uses assign_celltypes() from common.R
+# To add colData celltype to sce
+# But can fail silently if no cells match the requested celltype
 for(cellassign_fit in snakemake@input[["fits"]]) {
     cellassign_fit <- readRDS(cellassign_fit)
     sce <- assign_celltypes(cellassign_fit, sce, snakemake@params[["min_gamma"]], constrain_celltypes)

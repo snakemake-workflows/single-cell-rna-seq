@@ -91,7 +91,6 @@ rownames(fit$cell_type) <- cells
 
 saveRDS(fit, file = snakemake@output[["fit"]])
 
-save.image()
 # plot heatmap
 source(file.path(snakemake@scriptdir, "common.R"))
 sce <- assign_celltypes(fit, sce, snakemake@params[["min_gamma"]])
