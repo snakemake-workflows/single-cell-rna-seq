@@ -68,6 +68,7 @@ gene-vs-gene-plots:
     # constrain to cells of the following types (comment out if not needed)
     constrain-celltypes:
       # - Malignant
+      - "Endothelial-cell"
       - "T-cell"
       - "B-cell"
     pairs:
